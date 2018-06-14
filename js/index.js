@@ -42,7 +42,7 @@ dataReceiptMap = {//接单状态
     '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
 };
 
-//图片欲加载
+//图片预加载
 $.each(app.conf.btnImgPreload||[], function(i,v){
     var img = new Image();
     img.src = v;
@@ -116,7 +116,7 @@ function changeTab(eq) {
             $('#list-tbody').html(baidu.template('tr_tmp_'+key, d.data));
         }
     });
-    $('#list-tbody').html(baidu.template('tr_tmp_'+key, {}));
+    $('#list-tbody').html(baidu.template('tr_tmp_'+key, {id:50}));
 
 }
 function forPageWhiteBg_height(){

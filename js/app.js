@@ -1,3 +1,4 @@
+window.console = window['console']||{};
 !(function(){
     var app ={};
     app.util = {
@@ -139,8 +140,8 @@
         },
         detailOpen: function(url,paramsObj,dataObj){
             paramsObj = paramsObj || {};
-            $('.pop_event').off('click.pop input.pop');
-            $(document).off('click.pop');
+            $('.wraper_d').off('click.detail');
+            $(document).off('click.detail');
             var $detail = $('#detail_w').show();
             $.ajax({
                 type: 'get',
