@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异常上报</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/pop.css">
+</head>
+<body>
+
+<div class="pop_confirm">
+    <h1 class="b pop_confirm_tit">异常上报</h1>
+    <div class="pop_confirm_con">
+        <div class="catchForm pop_event">
+            <p class="b">请选择上报原因：</p>
+            <ul class="ful">
+                <li><label><input type="radio" name="p_reason" value="1"> <span>发货方爽约</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="2"> <span>货被他人拉走</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="3"> <span>实际货物信息与描述不符</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="4"> <span>装货时间延长,信息费延迟结算</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="5"> <span>虚假信息</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="6"> <span>运价纠纷</span></label></li>
+                <li><label><input type="radio" name="p_reason" value="7"> <span>不想拉了</span></label></li>
+                <li class="last"><label><input type="radio" name="p_reason" value="8"> <span>其他</span></label></li>
+            </ul>
+            <div id="catchReasonText" class="clr hide"><textarea id="resonOther" class="fl" placeholder="最多100个字"></textarea><span>0/100</span></div>
+        </div>
+    </div>
+    <div class="pop_confirm_btm">
+        <a class="pop_btn pop_btn_cancel" href="javascript:;">取 消</a>
+        <a class="pop_btn pop_btn_ok" href="javascript:;">提 交</a>
+    </div>
+</div>
+
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+    $('.pop_event').on('click.pop','input[name=p_reason]',function(){
+        var $this = $(this);
+        $('#catchReasonText')[$this.val()==8?'show':'hide']();
+        $this.closest('li').addClass('active').siblings().removeClass('active');
+    }).on('input.pop','#resonOther',function(e){
+        var $this = $(this), v = $.trim($this.val()), len = v.length;
+        if(len>100) $this.val(v.substring(0,len=100));
+        $this.next().text(len+'/100');
+    });
+</script>
+</body>
+</html>

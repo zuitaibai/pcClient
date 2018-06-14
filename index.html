@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车辆订单</title>
+    <!--<link rel="stylesheet" href="css/jquery-ui.min.css">-->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<div class="wraper">
+
+    <div class="header">
+        <ul class="ful tabs" id="tabs">
+            <li data-t="all"><a class="btn_2 btn_blue2" href="javascript:;">全部订单</a><!--<span class="tabpop"><i></i><span>12</span><em></em></span>--></li>
+            <li data-t="waitPay"><a class="btn_2border" href="javascript:;">待支付</a><span class="tabpop"><i></i><span>12</span><em></em></span></li>
+            <li data-t="waitAgree"><a class="btn_2border" href="javascript:;">待同意</a><span class="tabpop"><i></i><span>1</span><em></em></span></li>
+            <li data-t="waitShipment"><a class="btn_2border" href="javascript:;">待装货</a><span class="tabpop"><i></i><span>1</span><em></em></span></li>
+            <li data-t="yetFinish"><a class="btn_2border" href="javascript:;">已完成</a><span class="tabpop"><i></i><span>1</span><em></em></span></li>
+            <li data-t="reject"><a class="btn_2border" href="javascript:;">拒绝/退费</a><span class="tabpop"><i></i><span>1</span><em></em></span></li>
+            <li data-t="catch"><a class="btn_2border" href="javascript:;">违约/异常</a><span class="tabpop"><i></i><span>1</span><em></em></span></li>
+        </ul>
+    </div>
+
+    <div class="main">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="tablelist">
+            <thead id="list-thead">
+            <tr class="thead_all"><th>运单号</th><th>路线</th><th>货物信息</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_waitPay hide"><th>路线</th><th>货物信息</th><th>下单时间</th><th>运前信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_waitAgree hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>支付时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_waitShipment hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>同意装货时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_yetFinish hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>成交时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_reject hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>拒绝时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_catch hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>上报时间</th><th>已付信息费</th><th>异常类型</th><th>上报人</th><th>货物状态</th><th>操作</th></tr>
+            </thead>
+            <tbody id="list-tbody"></tbody>
+        </table>
+        <div style="height:60px;"></div>
+        <a href="javascript:;" id="a">打开详情</a>&emsp;
+        <select id="b">
+            <option value="">打开confirm</option>
+            <option value="pop_catchPort.html">打开pop_catchPort.html</option>
+            <option value="pop_catchPortForm.html">打开pop_catchPortForm.html</option>
+            <option value="pop_choosePayWay.html">打开pop_choosePayWay.html</option>
+            <option value="pop_goodsAgree.html">打开pop_goodsAgree.html</option>
+            <option value="pop_goodsFinish.html">打开pop_goodsFinish.html</option>
+            <option value="pop_goodsReject.html">打开pop_goodsReject.html</option>
+            <option value="pop_mediFeePay.html">打开pop_mediFeePay.html</option>
+        </select>&emsp;
+        <select id="c">
+            <option value="">打开tip</option>
+            <option value="pop_payFail.html">打开pop_payFail.html</option>
+            <option value="pop_paySuccess.html">打开pop_paySuccess.html</option>
+        </select>
+    </div>
+
+
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="dialogs" id="dialogs">
+    <img class="dg_close" id="dg_close" src="img/s_005.png" alt="">
+    <div id="dialog_m"><p class="pd_load">Loading..</p></div>
+</div>
+<div class="overlay2" id="overlay2"></div>
+<div class="detail_w" id="detail_w"><p class="pd_load">Loading..</p></div>
+<div class="loading" id="loading"><img src="img/loading.gif" alt="loading"></div>
+<div id="toast" class="toast"><div class="toast_m"><span></span></div></div>
+
+<script id="tr_tmp_all" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>已付信息费</td><td>货物状态</td><td>操作</td></tr>
+</script>
+<script id="tr_tmp_waitPay" type="text/html">
+    <tr><td>路线</td><td>货物信息</td><td>下单时间</td><td>运前信息费</td><td>货物状态</td><td>继续支付</td></tr>
+</script>
+<script id="tr_tmp_waitAgree" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>支付时间</td><td>已付信息费</td><td>货物状态</td><td>详情</td></tr>
+</script>
+<script id="tr_tmp_waitShipment" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>同意装货时间</td><td>已付信息费</td><td>货物状态</td><td>异常上报 装货完成</td></tr>
+</script>
+<script id="tr_tmp_yetFinish" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>成交时间</td><td>已付信息费</td><td>货物状态</td><td>详情</td></tr>
+</script>
+<script id="tr_tmp_reject" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>拒绝时间</td><td>已付信息费</td><td>货物状态</td><td>详情</td></tr>
+</script>
+<script id="tr_tmp_catch" type="text/html">
+    <tr><td>运单号</td><td>路线</td><td>货物信息</td><td>上报时间</td><td>已付信息费</td><td>异常类型</td><td>上报人</td><td>货物状态</td><td>详情</td></tr>
+</script>
+
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/baiduTemplate.js"></script>
+<!--<script src="js/jquery-ui.min.js"></script>-->
+<script src="js/app.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

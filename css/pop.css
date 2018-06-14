@@ -1,0 +1,64 @@
+a{text-decoration: none;}
+
+.pop_confirm{padding:20px 30px 28px;background:#fff;position:relative;}
+.pop_confirm_tit{line-height: 38px;font-size: 20px;color: #4381E6;text-align: center;}
+.pop_confirm_con{min-height:170px;_height:170px;}
+.pop_h2{padding-top:26px;font-size:20px;text-align: center;line-height:40px;}
+.pop_h3{font-size: 18px;color: #666666;text-align: center;line-height: 38px;}
+.pop_h4{line-height: 30px;font-size: 14px;color: #666666;text-align: center;}
+.pop_confirm_btm{text-align:center;font-size:0;}
+.pop_btn{line-height:42px;padding-top:2px;font-size: 16px;display:inline-block;zoom:1;width:210px;font-weight: bold;outline: none;}
+/*a.pop_btn:active,a.pop_btn:focus{outline:-webkit-focus-ring-color auto 5px;outline-color:-webkit-focus-ring-color;outline-style:auto;outline-width: 5px;}*/
+.pop_btn_cancel{background:url(../img/s_001.png) no-repeat;color:#4381E6;margin-right:10px;}
+.pop_btn_cancel:active{background-image:url(../img/s_001_2.png);outline: none;}
+.pop_btn_ok{background:url(../img/s_002.png) no-repeat;color:#fff;margin-left:10px;}
+.pop_btn_ok:active{background-image:url(../img/s_002_2.png);outline: none;}
+
+.pop_info{font-size: 12px;line-height:1.5;width:440px;margin:0 auto;}
+.pop_form{margin:15px 0 48px;}
+.pop_textfields{border: 1px solid #4381E6;border-radius: 2px;font-size: 16px;width:440px;margin:0 auto;}
+.pop_label{color: #4381E6;margin-left:10px;padding-top:2px;line-height: 42px;}
+.pop_textfield{border:none;background:#fff;width:336px;margin:9px 0 0 10px;height:26px;line-height: 26px;padding:0;font-size: 100%;}
+.pop_textfield:focus{outline: none;}
+.pop_rt{margin-right:10px;padding-top:2px;line-height: 42px;}
+.pop_choosePhone{display:inline-block;position: relative;width:130px;text-align: center;}
+.btn_choose_tit{display:inline-block;padding-right:17px;background:url(../img/s_018.png) no-repeat right center;}
+.btn_choose_tit2{background-image: url(../img/s_019.png);}
+.pop_choosePhone_list{position: absolute;left:0;top:29px;background:#fff;font-style: normal;display:none;border: 1px solid #E1E1E1;text-align:center;width:130px;
+    box-shadow: 0 2px 4px 0 rgba(186,186,186,0.50);max-height:182px;overflow-y: auto;
+}
+.phonelist_item{color:#333;display:block;font-size: 14px;}
+.phonelist_item:hover,.phonelist_item_checked{background:#F7F7F7;font-weight:bold;}
+.phonelist_add{display:block;font-size: 12px;color: #666666;}
+.phonelist_add:hover{background:#F7F7F7;}
+.phonelist_add:active{color:#000;}
+
+.catchForm{font-size:14px;padding-bottom:26px;}
+.catchForm p{color:#666;margin-bottom:14px;}
+.catchForm ul{color:#333;line-height: 24px;}
+.catchForm ul li{width:49.99%;_display:inline;}
+.catchForm ul li,.catchForm ul li label{vertical-align: middle;}
+.catchForm ul li input,.catchForm ul li span{display:inline-block;vertical-align: middle;}
+.catchForm ul li span{margin-left:5px;}
+.catchForm ul li.active{color:#4381E6;font-weight:bold;}
+.catchForm ul li.last{width:100%;}
+.catchForm div{margin-top:10px;border: 1px solid #4381E6;border-radius: 2px;padding:10px 14px;position: relative;}
+.catchForm div textarea{background: #FFFFFF;border:none;width:100%;height:50px;resize: none;font-size: 14px;color: #666666;line-height: 1.1;}
+.catchForm div textarea:focus{outline:none;}
+.catchForm div span{position: absolute;bottom:9px;right:10px;font-size: 12px;color: #CCCCCC;}
+
+.payway_list label{display:block;padding:14px 0;border-bottom:1px solid #E7E7E7;}
+.payway_list label input{margin:13px 2px 0 0;}
+
+.pop_confirm_top{text-align: center;padding:12px 0 7px;}
+.pop_confirm_top div,.pop_confirm_top div img{vertical-align: top;}
+.pop_confirm_top p{font-size:20px;margin-top:4px;}
+.pop_confirm_ft{text-align: center;font-size:16px;}
+.pop_confirm_ft a:hover{text-decoration: underline;}
+.pop_sp{text-align: center;font-size:16px;color:#666;line-height: 1.1;}
+
+.addphone_w{position: absolute;background:#fff;border:2px solid #ccc;    left: 28px;right: 28px;top: 20px;bottom: 20px;padding:1em;display:none;}
+.addphone_w_o{position: absolute;left:0;right:0;top:0;bottom:0;display:none;text-align: center;}
+.addphone_w_o_p{width:150px;height:150px;margin:0 auto;background:url(../img/s_022.png) no-repeat;padding:61px 60px 89px;position:relative;}
+.addphone_w_o_p a{width:14px;height:14px;position:absolute;top:10px;right:10px;background:url(../img/s_024.png) no-repeat;}
+.addphone_w_o_p img{display:block;width:100%;height:100%;}

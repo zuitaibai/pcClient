@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择支付方式</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/pop.css">
+</head>
+<body>
+
+<div class="pop_confirm pop_event">
+    <h1 class="b pop_confirm_tit">选择支付方式</h1>
+    <div class="pop_confirm_con">
+        <div class="payway_list" id="payway_list">
+            <label class="clr">
+                <img class="fl" src="img/s_003.png" alt="">
+                <input type="radio" class="fr" name="payway" value="wechat" checked>
+            </label>
+            <label class="clr">
+                <img class="fl" src="img/s_004.png" alt="">
+                <input type="radio" class="fr" name="payway" value="alipay">
+            </label>
+        </div>
+    </div>
+    <div class="pop_confirm_btm">
+        <a class="pop_btn pop_btn_cancel" href="javascript:;">取 消</a>
+        <a class="pop_btn pop_btn_ok" href="javascript:;" id="pop_btn_ok_choosePay">确 定</a>
+    </div>
+
+    <div class="addphone_w" id="getResult_alipay">
+        <div class="c">
+            <a href="javascript:;" class="btn_1border" id="btn_cannelResult_alipay">取 消</a>
+            <a href="javascript:;" class="btn_1  btn_blue" id="btn_getResult_alipay">查看支付结果</a>
+        </div>
+    </div>
+
+    <div class="addphone_w_o" id="showCodeImg_wechat">
+        <div class="addphone_w_o_p" id="area_showCodeImg_wechat">
+            <img src="img/s_023.png" alt="">
+            <a href="javascript:;" id="btn_close_showCodeImg_wechat"></a>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+    $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
+        var checked = $('input[name=payway]:checked','#payway_list').val();
+        if(checked=='wechat'){
+            $('#showCodeImg_wechat').show();
+        }else if(checked=='alipay'){
+            $('#getResult_alipay').show();
+        }
+    }).on('click.pop','#btn_cannelResult_alipay',function(){
+        $('#getResult_alipay').hide();
+    }).on('click.pop','#btn_close_showCodeImg_wechat',function(){
+        $('#showCodeImg_wechat').hide();
+    });
+</script>
+</body>
+</html>

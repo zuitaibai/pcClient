@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>confirm</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/confirm.css">
+</head>
+<body>
+<div class="wraper">
+    <div class="confirm">
+        <div class="confirm-tit"></div>
+        <div class="confirm-con"></div>
+        <div class="confirm-btm">
+            <a class="confirm-btn" href="javascript:;"></a>
+            <a class="confirm-btn confirm-btn2" href="javascript:;"></a>
+        </div>
+    </div>
+</div>
+<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+var href = decodeURI(location.href);
+    href = href.substring(href.indexOf('?')+1);
+var tit = (app.util.getQueryString('title',href)||''),
+    content = (app.util.getQueryString('content',href)||''),
+    cancel = (app.util.getQueryString('cancel',href)||'取 消'),
+    ok = (app.util.getQueryString('ok',href)||''),
+    okcbk=(app.util.getQueryString('okcbk',href)||'');
+
+$('.confirm-tit').html(tit);
+$('.confirm-con').html(content);
+$('.confirm-btn:eq(0)').text(cancel).on('click',function(){window.close();});
+ok = $('.confirm-btn2').text(ok);
+ok.on('click',function(){
+    if(okcbk){
+        var str = 'var fn = '+ okcbk + ';';
+        eval(str);
+        var fnResult = fn();
+        if(!fnResult) window.close();
+    }
+});
+</script>
+</body>
+</html>
