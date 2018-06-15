@@ -151,6 +151,7 @@ window.console = window['console']||{};
                 global: false,
                 success: function(data, textStatus, jqXHR){
                     $detail.html(data).show();
+                    setTimeout(app.ui.detailHeightZomm,100);
                     paramsObj.overlay && $('#overlay2').show();
                     paramsObj.cbk && paramsObj.cbk();
                 }
@@ -184,6 +185,10 @@ window.console = window['console']||{};
                 if(app.conf.colors[i].indexOf(str)>-1) return i;
             }
             return '';
+        },
+        detailHeightZomm: function(){
+            var w = $('#detail_w').css('height','auto'), ht = w.height(), fht = $('body').height()-20-20;
+            w.css('height', ht>fht ? fht : 'auto');
         }
     };
     app.ajax = function(url,type,params){

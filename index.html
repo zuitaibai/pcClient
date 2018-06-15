@@ -54,7 +54,7 @@
 <script id="tr_tmp_all" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
         var status = tabLocalMap[status_c]||'';
         var class1 = app.ui.getColor(status);
@@ -79,7 +79,7 @@
 <script id="tr_tmp_waitPay" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var class1 = app.ui.getColor('待支付');
         var class2 = app.ui.getColor('继续支付');
     %>
@@ -96,7 +96,7 @@
 <script id="tr_tmp_waitAgree" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var class1 = app.ui.getColor('待同意');
         var class2 = app.ui.getColor('详情');
     %>
@@ -114,7 +114,7 @@
 <script id="tr_tmp_waitShipment" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var class1 = app.ui.getColor('待装货');
         var class2 = app.ui.getColor('异常上报');
         var class3 = app.ui.getColor('装货完成');
@@ -133,7 +133,7 @@
 <script id="tr_tmp_yetFinish" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var class1 = app.ui.getColor('已完成');
         var class2 = app.ui.getColor('详情');
     %>
@@ -151,7 +151,7 @@
 <script id="tr_tmp_reject" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var class1 = app.ui.getColor('拒绝');
         var class2 = app.ui.getColor('详情');
     %>
@@ -169,7 +169,7 @@
 <script id="tr_tmp_catch" type="text/html">
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
-        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount*1000,10) + '元';
+        if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
 
         var exParty = list[i].exParty, s = catchType[exParty]||{} ,catchTypes = s[list[i].exType]||'';
         var reportPerson = '';
