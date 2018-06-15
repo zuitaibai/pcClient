@@ -2,7 +2,7 @@ a{text-decoration: none;}
 
 .pop_confirm{padding:20px 30px 28px;background:#fff;position:relative;}
 .pop_confirm_tit{line-height: 38px;font-size: 20px;color: #4381E6;text-align: center;}
-.pop_confirm_con{min-height:170px;_height:170px;}
+.pop_confirm_con{min-height:170px;_height:expression(this.scrollHeight < 170 ? "170px" : "auto");}
 .pop_h2{padding-top:26px;font-size:20px;text-align: center;line-height:40px;}
 .pop_h3{font-size: 18px;color: #666666;text-align: center;line-height: 38px;}
 .pop_h4{line-height: 30px;font-size: 14px;color: #666666;text-align: center;}
@@ -25,7 +25,7 @@ a{text-decoration: none;}
 .btn_choose_tit{display:inline-block;padding-right:17px;background:url(../img/s_018.png) no-repeat right center;}
 .btn_choose_tit2{background-image: url(../img/s_019.png);}
 .pop_choosePhone_list{position: absolute;left:0;top:29px;background:#fff;font-style: normal;display:none;border: 1px solid #E1E1E1;text-align:center;width:130px;
-    box-shadow: 0 2px 4px 0 rgba(186,186,186,0.50);max-height:182px;overflow-y: auto;
+    box-shadow: 0 2px 4px 0 rgba(186,186,186,0.50);max-height:182px;_height:expression(this.scrollHeight > 182 ? "182px" : "auto");overflow-y: auto;
 }
 .phonelist_item{color:#333;display:block;font-size: 14px;}
 .phonelist_item:hover,.phonelist_item_checked{background:#F7F7F7;font-weight:bold;}

@@ -1,3 +1,4 @@
+window.console = window['console']||{};
 !(function(){
     var app ={};
     app.util = {
@@ -139,8 +140,8 @@
         },
         detailOpen: function(url,paramsObj,dataObj){
             paramsObj = paramsObj || {};
-            $('.pop_event').off('click.pop input.pop');
-            $(document).off('click.pop');
+            $('.wraper_d').off('click.detail');
+            $(document).off('click.detail');
             var $detail = $('#detail_w').show();
             $.ajax({
                 type: 'get',
@@ -150,6 +151,7 @@
                 global: false,
                 success: function(data, textStatus, jqXHR){
                     $detail.html(data).show();
+                    setTimeout(app.ui.detailHeightZomm,100);
                     paramsObj.overlay && $('#overlay2').show();
                     paramsObj.cbk && paramsObj.cbk();
                 }
@@ -177,6 +179,16 @@
         toastClose: function(){
             clearTimeout(app.ui.timer);
             return $('#toast').stop(true,true).hide();
+        },
+        getColor: function(str){
+            for(var i in app.conf.colors){
+                if(app.conf.colors[i].indexOf(str)>-1) return i;
+            }
+            return '';
+        },
+        detailHeightZomm: function(){
+            var w = $('#detail_w').css('height','auto'), ht = w.height(), fht = $('body').height()-20-20;
+            w.css('height', ht>fht ? fht : 'auto');
         }
     };
     app.ajax = function(url,type,params){
@@ -205,33 +217,34 @@
         return app.ajax(url,'get',params);
     };
     app.conf = {
-        dtype: {
-            pay: '支付信息费',
+        ftype: {
+            pay: '支付信息费', //
 
-            forAgree: '待同意',
-            forShipment: '待装货',
-            forPay: '待支付',
+            waitAgree: '待同意',
+            waitShipment: '待装货', //
+            waitPay: '待支付',
 
-            shipmenting: '装货中',
-            fixPublishing: '发布中',
+            shipmentIng: '装货中', //
+            fixPublishIng: '发布中', //
 
-            shipmented: '装货完成',
-            expired: '已撤消/过期',
-            eached: '已成交',
-            reject: '已拒绝'
+            yetShipment: '装货完成', //
+            yetExpires: '已撤消/过期', //
+            yetFinish: '已完成',
+            reject: '拒绝/退费',
+            catch: '违约/异常'
 
         },
         colors: {
-            yellow: '待支付,待同意,待装货,拒绝',
+            yellow: '待支付,待同意,待装货,拒绝,待处理,处理中',
             red: '异常上报,违约异常',
-            gray: '已完成',
+            gray: '已完成,处理完成',
             green: '继续支付',
             blue: '详情,装货完成'
         },
         api: {
             listReceiptYet: '/plat/plat/infoFee/orders/list.action', //已接单
             listCatch: '/plat/plat/infoFee/ex/list.action', //违约异常列表
-            listAll: '',
+            listAll: '/plat/plat/infoFee/orders/alllist.action', //全部
             catchReport: '/plat/plat/infoFee/ex/save.action', //异常上报
             shipmentFinish: '/plat/plat/infoFee/wayBill/finish.action', //装货完成
             detailGoods: '/plat/plat/infoFee/transport/getSingleDetail.action' //我的货源详情
@@ -252,12 +265,13 @@
         getCommonParamsObj: function(){
             var obj = app.util.getQueryStringObject();
             return {
-                clientSign: obj.clientSign ||'',
+                clientSign: obj.clientSign ||'1',
                 osVersion: obj.osVersion ||'',
-                clientVersion: obj.clientVersion ||'',
+                clientVersion: obj.clientVersion ||'3321',
                 clientId: obj.clientId ||'',
-                userId: obj.userId ||'',
-                ticket: obj.ticket ||''
+                userId: obj.userId ||'147463',
+                //ticket: obj.ticket ||'token=CharacterEncodingFilter',
+                ticket: obj.ticket ||'b0ff972d33dfa6f3fcb29e51f2212493'
             };
         }
     };
