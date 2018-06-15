@@ -13,7 +13,7 @@
     );*/
 var tabLocalMap = {
     'all': '全部订单',
-    'yetFinish': '已成交',
+    'yetFinish': '已完成',
     'waitAgree': '待同意',
     'waitPay': '待支付',
     'waitShipment': '待装货',
@@ -24,8 +24,18 @@ tabLocal2ServerMap = {
     'waitPay': 1, //待支付
     'waitAgree': 2, //待同意
     'waitShipment': 3, //待装货
-    'yetFinish': 4, //已成交
+    'yetFinish': 4, //已完成
     'reject': 5 //拒绝/退费
+},
+tabLocal2ServerMap_allBook = {
+    '0': 'waitPay', //待支付
+    '1': 'waitAgree', //待同意
+    '4': 'waitShipment', //待装货
+    '5': 'yetFinish', //已完成
+    '6': 'yetFinish',
+    '2': 'reject', //拒绝/退费
+    '3': 'reject',
+    '7': 'catch'
 },
 dataReceiptMap = {//接单状态
     '0': '待接单',
@@ -40,6 +50,19 @@ dataReceiptMap = {//接单状态
     '9': '系统撤销货源退款',
     '10': '车主取销装货',
     '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
+},
+catchType = {
+    '2':{ '1':'车主爽约', '2':'其他' },
+    '1':{
+        '1': '发货方爽约',
+        '2': '货被他人拉走',
+        '3': '实际货物信息与描述不符',
+        '4': '装货时间延长，信息费延迟结算。',
+        '5': '虚假信息',
+        '6': '运价纠纷',
+        '7': '不想拉了',
+        '8': '其他'
+    }
 };
 
 //图片预加载
@@ -54,12 +77,12 @@ $(window).on('resize',forPageWhiteBg_height).trigger('resize');
 //tab
 $('#tabs>li').on('click',function(){
     changeTab($(this).index());
-});
+}).eq(0).trigger('click');
 
-$('#a').on('click',function(){
-    app.ui.detailClose();
+$('#list-tbody').on('click','.btn_index_detail',function(){
+    var id = $(this).closest('tr').attr('data-id') || '';
     app.ui.detailOpen('./detail.html',{
-        cbk: function(){ $('#detailMain').trigger('loads',{id:889}); }
+        cbk: function(){ $('#detailMain').trigger('loads',{id:id}); }
     });
 });
 $('#b').on('change',function(){
@@ -83,6 +106,7 @@ $('#list-tbody')
     });
 
 function changeTab(eq) {
+    $('#list-tbody').html('');
     var li = $('#tabs>li:eq('+eq+')'), key = li.attr('data-t');
     li.children('a').attr('class','btn_2 btn_blue2').end().siblings().find('a').attr('class','btn_2border');
     $('#list-thead>tr.thead_'+key).show().siblings().hide();
@@ -94,30 +118,34 @@ function changeTab(eq) {
         $.extend(postData, {queryMenuType: 1}); //1车主上报，2货主上报
     }else{
         url = app.conf.api.listReceiptYet;
-        $.extend(postData, {queryMenuType: tabLocal2ServerMap[key]}); //1待支付 2待同意 3待装货 4已成交 5决绝退费
+        $.extend(postData, {queryMenuType: tabLocal2ServerMap[key]}); //1待支付 2待同意 3待装货 4已完成 5决绝退费
     }
     app.ajax.post(url, {
         //queryID	必填	Integer	下拉是0，上滑是最小sortId；（首次queryID=0）
         //queryActionType	必填	Integer	 1下拉，2上滑；（首次queryActionType=1）
         data: $.extend(postData, {queryActionType:1, queryID:0}),
-        success:function(d){
-            d = {
-                code:200,
-                data:{
-                    data: {
-
-                    },
-                    bubbleNumbers:{
-
-                    }
-                },
-                msg: ''
-            };
-            $('#list-tbody').html(baidu.template('tr_tmp_'+key, d.data));
+        success:function(data){
+            //处理气泡
+            $('#tabs .tabpop').hide();
+            if(data.data.bubbleNumbers && data.data.bubbleNumbers.length){
+                $.each(data.data.bubbleNumbers,function(i,v){
+                    if(v.number>0) $('#tabs>li[data-type2='+v.type2+']').children('.tabpop').show().children('span').text(v.number);
+                });
+            }
+            //有数据
+            if(data.data.data && data.data.data.length){
+                $('#list-tbody').html(baidu.template('tr_tmp_'+key, {list:data.data.data}));
+            }
+            //无数据
+            else{
+                var colspan = 1;
+                if(key==='all'||key==='waitPay') colspan = 6;
+                else if(key==='waitAgree'||key==='waitShipment'||key==='yetFinish'||key==='reject') colspan = 7;
+                else if(key==='catch') colspan = 9;
+                $('#list-tbody').html('<td colspan="'+colspan+'"><p style="line-height:50px;text-align:center;color:#ccc;">暂无数据</p></td>');
+            }
         }
     });
-    $('#list-tbody').html(baidu.template('tr_tmp_'+key, {id:50}));
-
 }
 function forPageWhiteBg_height(){
     var ht = $('.wraper').height() - $('.header').height() - 2 - 1;
