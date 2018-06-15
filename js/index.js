@@ -155,10 +155,7 @@ function request(){
                 if(ifMore){
                     $('#listLoadMore').show().children('span').show().siblings().hide();
                 }else{//首次加载
-                    var colspan = 1;
-                    if(key==='all'||key==='waitPay') colspan = 6;
-                    else if(key==='waitAgree'||key==='waitShipment'||key==='yetFinish'||key==='reject') colspan = 7;
-                    else if(key==='catch') colspan = 9;
+                    var colspan = $('#list-thead>tr.thead_'+key+'>th').length || 1;
                     $('#list-tbody').html('<td colspan="'+colspan+'"><p style="line-height:50px;text-align:center;color:#ccc;">暂无数据</p></td>');
                     $('#listLoadMore').hide();
                 }
