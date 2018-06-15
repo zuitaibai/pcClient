@@ -85,25 +85,6 @@ $('#list-tbody').on('click','.btn_index_detail',function(){
         cbk: function(){ $('#detailMain').trigger('loads',{id:id}); }
     });
 });
-$('#b').on('change',function(){
-    var v = $(this).val();
-    if(!v) return;
-    app.ui.popClose();
-    app.ui.popOpen('./'+v,{noClose:true});
-});
-$('#c').on('change',function(){
-    var v = $(this).val();
-    if(!v) return;
-    app.ui.popClose();
-    app.ui.popOpen('./'+v);
-});
-$('#list-tbody')
-    .on('click','.link_btn_catch',function(){
-
-    })
-    .on('click','.link_btn_pop',function(){
-
-    });
 
 function changeTab(eq) {
     $('#list-tbody').html('');
