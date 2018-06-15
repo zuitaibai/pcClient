@@ -81,6 +81,16 @@ $(window).on('resize',function(){
     },30);
 }).trigger('resize');
 
+//postDataTemp;
+var postDataBase = {
+    url: app.conf.api.listAll,
+    //queryID	必填	Integer	下拉是0，上滑是最小sortId；（首次queryID=0）
+    //queryActionType	必填	Integer	 1下拉，2上滑；（首次queryActionType=1）
+    data: $.extend({}, app.work.getCommonParamsObj(), {queryActionType:1, queryID:0}),
+    key: 'all'
+},
+postDataTemp = {};
+
 //tab
 $('#tabs>li').on('click',function(){
     changeTab($(this).index());
@@ -94,25 +104,30 @@ $('#list-tbody').on('click','.btn_index_detail',function(){
     });
 });
 
+$('#linkBtn_loadMore').on('click',request);
+
 function changeTab(eq) {
+    postDataTemp = $.extend(true,{},postDataBase);
     $('#list-tbody').html('');
-    var li = $('#tabs>li:eq('+eq+')'), key = li.attr('data-t');
+    var li = $('#tabs>li:eq('+eq+')'), key = postDataTemp.key = li.attr('data-t');
     li.children('a').attr('class','btn_2 btn_blue2').end().siblings().find('a').attr('class','btn_2border');
     $('#list-thead>tr.thead_'+key).show().siblings().hide();
-    var url, postData = app.work.getCommonParamsObj();
     if(key==='all'){
-        url = app.conf.api.listAll;
+        postDataTemp.url = app.conf.api.listAll;
     }else if(key==='catch'){
-        url = app.conf.api.listCatch;
-        $.extend(postData, {queryMenuType: 1}); //1车主上报，2货主上报
+        postDataTemp.url = app.conf.api.listCatch;
+        $.extend(postDataTemp.data, {queryMenuType: 1}); //1车主上报，2货主上报
     }else{
-        url = app.conf.api.listReceiptYet;
-        $.extend(postData, {queryMenuType: tabLocal2ServerMap[key]}); //1待支付 2待同意 3待装货 4已完成 5决绝退费
+        postDataTemp.url = app.conf.api.listReceiptYet;
+        $.extend(postDataTemp.data, {queryMenuType: tabLocal2ServerMap[key]}); //1待支付 2待同意 3待装货 4已完成 5决绝退费
     }
-    app.ajax.post(url, {
-        //queryID	必填	Integer	下拉是0，上滑是最小sortId；（首次queryID=0）
-        //queryActionType	必填	Integer	 1下拉，2上滑；（首次queryActionType=1）
-        data: $.extend(postData, {queryActionType:1, queryID:0}),
+    request();
+}
+function request(){
+    var key = postDataTemp.key, ifMore = false;
+    if(postDataTemp.data.queryID!=0) postDataTemp.data.queryActionType = 2, ifMore = true;
+    app.ajax.post(postDataTemp.url, {
+        data: postDataTemp.data,
         success:function(data){
             //处理气泡
             $('#tabs .tabpop').hide();
@@ -122,16 +137,31 @@ function changeTab(eq) {
                 });
             }
             //有数据
-            if(data.data.data && data.data.data.length){
-                $('#list-tbody').html(baidu.template('tr_tmp_'+key, {list:data.data.data}));
+            if(data.data.data){
+                var len = data.data.data.length || 0;
+                if(len){
+                    postDataTemp.data.queryID = data.data.data[len-1]['sortId']||0;
+                    var html = baidu.template('tr_tmp_'+key, {list:data.data.data});
+                    $('#list-tbody')[ifMore?'append':'html'](html);
+                }
+                var showMore = $('#listLoadMore').show();
+                //todo:
+                //if(len<app.util.getQueryString('条数')) showMore.children('span').show().siblings().hide();
+                if(len<5) showMore.children('span').show().siblings().hide();
+                else showMore.children('a').show().siblings().hide();
             }
             //无数据
             else{
-                var colspan = 1;
-                if(key==='all'||key==='waitPay') colspan = 6;
-                else if(key==='waitAgree'||key==='waitShipment'||key==='yetFinish'||key==='reject') colspan = 7;
-                else if(key==='catch') colspan = 9;
-                $('#list-tbody').html('<td colspan="'+colspan+'"><p style="line-height:50px;text-align:center;color:#ccc;">暂无数据</p></td>');
+                if(ifMore){
+                    $('#listLoadMore').show().children('span').show().siblings().hide();
+                }else{//首次加载
+                    var colspan = 1;
+                    if(key==='all'||key==='waitPay') colspan = 6;
+                    else if(key==='waitAgree'||key==='waitShipment'||key==='yetFinish'||key==='reject') colspan = 7;
+                    else if(key==='catch') colspan = 9;
+                    $('#list-tbody').html('<td colspan="'+colspan+'"><p style="line-height:50px;text-align:center;color:#ccc;">暂无数据</p></td>');
+                    $('#listLoadMore').hide();
+                }
             }
         }
     });
