@@ -56,23 +56,16 @@
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
         var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
-        var status = tabLocalMap[status_c]||'';
-        var class1 = app.ui.getColor(status);
-        var btns = '';
-        if(status_c==='waitPay') btns = '<a class="'+app.ui.getColor('继续支付')+'" href="javascript:;">继续支付</a>';
-        else if(status_c==='waitAgree') btns = '<a class="btn_index_detail '+app.ui.getColor('详情')+'" href="javascript:;">详 情</a>';
-        else if(status_c==='waitShipment') btns = '<a class="'+app.ui.getColor('异常上报')+'" href="javascript:;">异常上报</a> <a class="'+app.ui.getColor('装货完成')+'" href="javascript:;">装货完成</a>';
-        else if(status_c==='yetFinish') btns = '<a class="btn_index_detail '+app.ui.getColor('详情')+'" href="javascript:;">详情</a>';
-        else if(status_c==='reject') btns = '<a class="btn_index_detail '+app.ui.getColor('详情')+'" href="javascript:;">详情</a>';
-        else if(status_c==='catch') btns = '<a class="btn_index_detail '+app.ui.getColor('详情')+'" href="javascript:;">详情</a>';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>"><%=status%></span></td>
-            <td><%-btns%></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -80,16 +73,17 @@
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-        var class1 = app.ui.getColor('待支付');
-        var class2 = app.ui.getColor('继续支付');
+        var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].createTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>">待支付</span></td>
-            <td><a class="<%=class2%>" href="javascript:;">继续支付</a></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -97,17 +91,18 @@
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-        var class1 = app.ui.getColor('待同意');
-        var class2 = app.ui.getColor('详情');
+        var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].payEndTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>">待同意</span></td>
-            <td><a class="btn_index_detail <%=class2%>" href="javascript:;">详 情</a></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -115,18 +110,18 @@
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-        var class1 = app.ui.getColor('待装货');
-        var class2 = app.ui.getColor('异常上报');
-        var class3 = app.ui.getColor('装货完成');
+        var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].agreeTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>">待装货</span></td>
-            <td><a href="javascript:;" class="<%=class2%>">异常上报</a> <a href="javascript:;" class="<%=class3%>">装货完成</a></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -134,17 +129,18 @@
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-        var class1 = app.ui.getColor('已完成');
-        var class2 = app.ui.getColor('详情');
+        var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].loadTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>">已完成</span></td>
-            <td><a href="javascript:;" class="btn_index_detail <%=class2%>">详 情</a></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -152,17 +148,18 @@
     <%for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-        var class1 = app.ui.getColor('拒绝');
-        var class2 = app.ui.getColor('详情');
+        var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
+        var arr = app.ui.makeBtns(status_c);
+        var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].refuseTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
-            <td><span class="<%=class1%>">拒绝</span></td>
-            <td><a href="javascript:;" class="btn_index_detail <%=class2%>">详 情</a></td>
+            <td><%-status%></td>
+            <td><%-arr.join('&emsp; ')%></td>
         </tr>
     <%}%>
 </script>
@@ -180,9 +177,9 @@
         else if(list[i].exStatus==1) manageStatus= '处理中';
         else if(list[i].exStatus==2) manageStatus= '处理完成';
         var class1 = app.ui.getColor(manageStatus);
-        var class2 = app.ui.getColor('详情');
+        var btns = app.ui.makeBtns('catch').join('&emsp; ');
     %>
-        <tr data-id="<%=list[i].id%>">
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" data-tsId="<%=list[i].tsId%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
@@ -191,7 +188,7 @@
             <td><%=catchTypes%></td>
             <td><%=reportPerson%></td>
             <td><span class="<%=class1%>"><%=manageStatus%></span></td>
-            <td><a href="javascript:;" class="btn_index_detail <%=class2%>">详 情</a></td>
+            <td><%-btns%></td>
         </tr>
     <%}%>
 </script>

@@ -8,18 +8,18 @@
 </head>
 <body>
 
-<div class="pop_confirm pop_event">
+<div class="pop_confirm pop_event" id="choosePayWay_warp">
     <h1 class="b pop_confirm_tit">选择支付方式</h1>
     <div class="pop_confirm_con">
         <div class="payway_list" id="payway_list">
-            <label class="clr">
+            <!--<label class="clr">
                 <img class="fl" src="img/s_003.png" alt="">
                 <input type="radio" class="fr" name="payway" value="wechat" checked>
             </label>
             <label class="clr">
                 <img class="fl" src="img/s_004.png" alt="">
                 <input type="radio" class="fr" name="payway" value="alipay">
-            </label>
+            </label>-->
         </div>
     </div>
     <div class="pop_confirm_btm">
@@ -45,19 +45,6 @@
 
 <script src="js/jquery1.12.4.min.js"></script>
 <script src="js/app.js"></script>
-<script>
-    $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
-        var checked = $('input[name=payway]:checked','#payway_list').val();
-        if(checked=='wechat'){
-            $('#showCodeImg_wechat').show();
-        }else if(checked=='alipay'){
-            $('#getResult_alipay').show();
-        }
-    }).on('click.pop','#btn_cannelResult_alipay',function(){
-        $('#getResult_alipay').hide();
-    }).on('click.pop','#btn_close_showCodeImg_wechat',function(){
-        $('#showCodeImg_wechat').hide();
-    });
-</script>
+<script src="js/pop_choosePayWay.js"></script>
 </body>
 </html>

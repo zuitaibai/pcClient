@@ -1,4 +1,4 @@
-window.console = window['console']||{};
+window.console = window['console']||{log:function(){},warn:function(){}};
 !(function(){
     var app ={};
     app.util = {
@@ -189,6 +189,37 @@ window.console = window['console']||{};
         detailHeightZomm: function(){
             var w = $('#detail_w').css('height','auto'), ht = w.height(), fht = $('body').height()-20-20;
             w.css('height', ht>fht ? fht : 'auto');
+        },
+        getBtnStatus: function(str){
+            var goOnPay = {t:'继续支付',c:'ATpay'},
+                detail = {t:'详情',c:'ATdetail'},
+                catchPort = {t:'异常上报', c:'ATport'},
+                shipmented = {t:'装货完成',c:'ATshipmented'};
+            var waitPay = [goOnPay], waitAgree = [detail], waitShipment = [catchPort,shipmented], yetFinish = [detail], reject = [goOnPay], catchs = [detail], ept = [];
+            waitPay.status = '待支付';waitAgree.status = '待同意';waitShipment.status = '待装货';
+                yetFinish.status = '已完成';reject.status = '拒绝/退费';catchs.status = '违约/异常';ept.status = '';
+            return {
+                waitPay: waitPay,
+                waitAgree: waitAgree,
+                waitShipment: waitShipment,
+                yetFinish: yetFinish,
+                reject: reject,
+                catch: catchs
+            }[str] || ept;
+        },
+        makeBtns: function(arrOrStr){
+            var sarr, rarr = [];
+            if(typeof arrOrStr==='string') sarr = app.ui.getBtnStatus(arrOrStr);
+            else sarr = arrOrStr;
+            if(!('status' in sarr)){
+                console.warn('该数组需要具有status属性');
+                sarr.status = '';
+            }
+            $.each(sarr,function(i,v){
+                rarr.push('<a class="'+v.c+' '+app.ui.getColor(v.t)+'" href="javascript:;">'+v.t+'</a>');
+            });
+            rarr.status = sarr.status;
+            return rarr;
         }
     };
     app.ajax = function(url,type,params){
@@ -247,7 +278,15 @@ window.console = window['console']||{};
             listAll: '/plat/plat/infoFee/orders/alllist.action', //全部
             catchReport: '/plat/plat/infoFee/ex/save.action', //异常上报
             shipmentFinish: '/plat/plat/infoFee/wayBill/finish.action', //装货完成
-            detailGoods: '/plat/plat/infoFee/transport/getSingleDetail.action' //我的货源详情
+            detailGoods: '/plat/plat/infoFee/transport/getSingleDetail.action', //我的货源详情
+
+            statusGoods: '/tytpc/infoPayment/commonPay/getGoodStatus', //[支付]查询货物状态
+            getTels: '',
+            saveOrder: '/tytpc/infoPayment/pcPay/saveWayBill', //[支付]保存订单
+            getPayWay: '/tytpc/infoPayment/pcPay/getPcPaymentChannel', //[支付]获取支付渠道
+            sbtPay: '/tytpc/infoPayment/pcPay/submitPaymentInfo', //[支付]发起微信/支付宝支付
+            getPayResult: '/tytpc/infoPayment/pcPay/getPayStatusById', //[支付]获取支付结果状态
+            createCodeImg: '/tytpc/tytpc/payment/weixin/getPayQRCode' //[支付]生成二维码
         },
         btnImgPreload: [
             'img/btn_b_click.png',
@@ -259,7 +298,14 @@ window.console = window['console']||{};
             'img/s_016.png',
             'img/s_017.png',
             'img/ss_001_click.png'
-        ]
+        ],
+        action: {
+            'ATdetail': '详情',
+            'ATreportCatch': '异常上报',
+            'ATshipmented': '装货完成',
+            'ATreportCatch': '异常上报',
+            'ATreportCatch': '异常上报',
+        }
     };
     app.work = {
         getCommonParamsObj: function(){
@@ -271,7 +317,7 @@ window.console = window['console']||{};
                 clientId: obj.clientId ||'',
                 userId: obj.userId ||'147463',
                 //ticket: obj.ticket ||'token=CharacterEncodingFilter',
-                ticket: obj.ticket ||'b0ff972d33dfa6f3fcb29e51f2212493'
+                ticket: obj.ticket ||'f2423726e5ac108f36afc10bc4f7e246'
             };
         }
     };

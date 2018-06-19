@@ -11,15 +11,7 @@
             }
         }
     );*/
-var tabLocalMap = {
-    'all': '全部订单',
-    'yetFinish': '已完成',
-    'waitAgree': '待同意',
-    'waitPay': '待支付',
-    'waitShipment': '待装货',
-    'reject': '拒绝/退费',
-    'catch': '违约/异常'
-},
+var
 tabLocal2ServerMap = {
     'waitPay': 1, //待支付
     'waitAgree': 2, //待同意
@@ -65,6 +57,9 @@ catchType = {
     }
 };
 
+
+
+
 //图片预加载
 $.each(app.conf.btnImgPreload||[], function(i,v){
     var img = new Image();
@@ -96,11 +91,31 @@ $('#tabs>li').on('click',function(){
     changeTab($(this).index());
 }).eq(0).trigger('click');
 
-$('#list-tbody').on('click','.btn_index_detail',function(){
+$('#list-tbody').on('click','.ATdetail',function(){ //详情
     var id = $(this).closest('tr').attr('data-id') || '';
     app.ui.detailOpen('./detail.html',{
         overlay:true,
         cbk: function(){  $('#detailMain').trigger('loads',{id:id}); }
+    });
+}).on('click','.ATpay',function(){ //继续支付
+    var id = $(this).closest('tr').attr('data-id') || '';
+    var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
+    var tsId = $(this).closest('tr').attr('data-tsId') || '';
+    app.ui.popOpen('./pop_mediFeePay.html',{
+        noClose:true,
+        cbk: function(){  $('#mediFeePay_warp').trigger('loads',{id:id, tsOrderNo: tsOrderNo, tsId:tsId}); }
+    });
+}).on('click','.ATport',function(){ //异常上报
+    var id = $(this).closest('tr').attr('data-id') || '';
+    app.ui.popOpen('./pop_catchPortForm.html',{
+        noClose:true,
+        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{id:id}); }
+    });
+}).on('click','.ATshipmented',function(){ //装货完成
+    var id = $(this).closest('tr').attr('data-id') || '';
+    app.ui.popOpen('./pop_goodsFinish.html',{
+        noClose:true,
+        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{id:id}); }
     });
 });
 
@@ -109,6 +124,7 @@ $('#linkBtn_loadMore').on('click',request);
 function changeTab(eq) {
     postDataTemp = $.extend(true,{},postDataBase);
     $('#list-tbody').html('');
+    $('#listLoadMore').hide();
     var li = $('#tabs>li:eq('+eq+')'), key = postDataTemp.key = li.attr('data-t');
     li.children('a').attr('class','btn_2 btn_blue2').end().siblings().find('a').attr('class','btn_2border');
     $('#list-thead>tr.thead_'+key).show().siblings().hide();

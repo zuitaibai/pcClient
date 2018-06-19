@@ -8,23 +8,19 @@
 </head>
 <body>
 
-<div class="pop_confirm">
+<div class="pop_confirm hide" id="mediFeePay_warp">
     <h1 class="b pop_confirm_tit">支付信息费</h1>
     <div class="pop_confirm_con">
-        <h4 class="pop_h4" style="padding-left:90px;"><span class="b">我的联系方式 </span> <span class="b yellow" id="ph_choosed">15901178765</span>
+        <h4 class="pop_h4" style="padding-left:90px;"><span class="b">我的联系方式 </span> <span class="b yellow" id="ph_choosed"></span>
             <span class="pop_choosePhone">
                 <a class="blue btn_choose_tit" href="javascript:;" id="btn_choose">选择</a>
-                <dl class="pop_choosePhone_list" id="pop_choosePhone_list">
-                    <dd><a class="phonelist_item phonelist_item_checked" href="javascript:;">18800112255</a></dd>
-                    <dd><a class="phonelist_item" href="javascript:;">15678894574</a></dd>
-                    <dt><a class="b phonelist_add" id="phonelist_add"  href="javascript:;">+添加电话</a></dt>
-                </dl>
+                <dl class="pop_choosePhone_list" id="pop_choosePhone_list"></dl>
             </span>
         </h4>
         <div class="pop_form">
             <div class="clr blue pop_textfields">
                 <label class="fl b pop_label">信息费</label>
-                <input class="fl pop_textfield" type="text" placeholder="输入协商的信息费">
+                <input class="fl pop_textfield" type="text" placeholder="输入协商的信息费" id="pop_textfield_money">
                 <span class="fr pop_rt">元</span>
             </div>
         </div>
@@ -32,7 +28,7 @@
     </div>
     <div class="pop_confirm_btm">
         <a class="pop_btn pop_btn_cancel" href="javascript:;">取 消</a>
-        <a class="pop_btn pop_btn_ok" href="javascript:;">去支付</a>
+        <a class="pop_btn pop_btn_ok" href="javascript:;" id="btnGoPayStart">去支付</a>
     </div>
 
     <div class="addphone_w pop_event" id="addphone_w">
@@ -50,41 +46,6 @@
 
 <script src="js/jquery1.12.4.min.js"></script>
 <script src="js/app.js"></script>
-<script>
-    $(document).on('click.pop',function(e){
-        if($(e.target).hasClass('phonelist_item')){
-            e.stopPropagation();
-            $(e.target).addClass('b phonelist_item_checked').parent().siblings().find('a.phonelist_item').removeClass('phonelist_item_checked');
-            $('#ph_choosed').text($(e.target).text());
-            $('#btn_choose').removeClass('btn_choose_tit2');
-            $('#pop_choosePhone_list').hide();
-        }else if($(e.target).hasClass('phonelist_add')){//添加电话
-            e.stopPropagation();
-            $('#addphone_w').show().find('.contr').val('');
-        }else if($(e.target).attr('id')==='btn_choose'){
-            e.stopPropagation();
-            $('#pop_choosePhone_list').toggle();
-            $(e.target).toggleClass('btn_choose_tit2');
-        }else{
-            $('#pop_choosePhone_list').hide();
-            $('#btn_choose').removeClass('btn_choose_tit2');
-        }
-    });
-    $('.pop_event').on('click.pop',function(e){
-        e.stopPropagation();
-    }).on('click.pop','#addphone_cannel',function(){
-        $('#addphone_w').hide();
-    }).on('click.pop','#addphone_sbt',function(){
-        var c1 = $('#contr1'), c2 = $('#contr2');
-        if(!c1.val() || !c2.val()){
-            app.ui.toastOpen('请填写电话或验证码');
-            return false;
-        }
-        app.ui.toastOpen('添加电话成功！');
-        var d = c1.val();
-        $('#addphone_w').hide();
-        $('#phonelist_add').before('<dd><a class="phonelist_item" href="javascript:;">'+d+'</a></dd>');
-    });
-</script>
+<script src="js/pop_mediFeePay.js"></script>
 </body>
 </html>

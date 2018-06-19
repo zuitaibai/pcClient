@@ -49,6 +49,8 @@ a{text-decoration: none;}
 
 .payway_list label{display:block;padding:14px 0;border-bottom:1px solid #E7E7E7;}
 .payway_list label input{margin:13px 2px 0 0;}
+.payway_list label span{line-height: 40px;margin-left:10px;}
+.payway_list label img{height:40px;}
 
 .pop_confirm_top{text-align: center;padding:12px 0 7px;}
 .pop_confirm_top div,.pop_confirm_top div img{vertical-align: top;}

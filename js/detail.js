@@ -219,8 +219,11 @@ $('#detailMain').on('loads', function(event, params) {
     if (!params.id) return;
     init(params.id);
 });
-var id = app.util.getQueryString('id');
-if (id) init(+id);
+var loadWeb = app.util.getQueryString('loadWeb');
+if(loadWeb=='yes'){
+    var id = app.util.getQueryString('id');
+    if (id) init(+id);
+}
 
 function init(id) {
     console.log(id);
