@@ -5,6 +5,10 @@
     <title>选择支付方式</title>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/pop.css">
+    <style>
+        .pop_btn_temp{background:url(img/s_001.png) no-repeat;color:#4381E6;margin-right:10px;}
+        .pop_btn_temp:active{background-image:url(img/s_001_2.png);outline: none;}
+    </style>
 </head>
 <body>
 
@@ -28,9 +32,14 @@
     </div>
 
     <div class="addphone_w" id="getResult_alipay">
-        <div class="c">
-            <a href="javascript:;" class="btn_1border" id="btn_cannelResult_alipay">取 消</a>
-            <a href="javascript:;" class="btn_1  btn_blue" id="btn_getResult_alipay">查看支付结果</a>
+
+        <h1 class="b pop_confirm_tit">提 示</h1>
+        <div class="pop_confirm_con">
+            <h2 class="blue b pop_h2">点击<span class="yellow">“查看支付结果”</span>查看支付宝付费结果</h2>
+        </div>
+        <div class="pop_confirm_btm">
+            <a class="pop_btn pop_btn_temp" id="btn_cannelResult_alipay" href="javascript:;">取 消</a>
+            <a class="pop_btn pop_btn_ok" id="btn_getResult_alipay" href="javascript:;">查看支付结果</a>
         </div>
     </div>
 
