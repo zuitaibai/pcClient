@@ -82,25 +82,25 @@ $('#list-tbody').on('click','.ATdetail',function(){ //详情
         cbk: function(){  $('#detailMain').trigger('loads',{goodsId:goodsId, detailType:3}); }
     });
 }).on('click','.ATpay',function(){ //继续支付
-    var id = $(this).closest('tr').attr('data-id') || '';
+    var goodsId = $(this).closest('tr').attr('data-id') || '';
     var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_mediFeePay.html',{
         noClose:true,
         cbk: function(){  $('#mediFeePay_warp').trigger('loads',{tsOrderNo: tsOrderNo}); }
     });
 }).on('click','.ATport',function(){ //异常上报
-    var id = $(this).closest('tr').attr('data-id') || '';
+    var goodsId = $(this).closest('tr').attr('data-id') || '';
     var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_catchPortForm.html',{
         noClose:true,
-        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{id:id, exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
+        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
     });
 }).on('click','.ATshipmented',function(){ //装货完成
-    var id = $(this).closest('tr').attr('data-id') || '';
+    var goodsId = $(this).closest('tr').attr('data-id') || '';
     var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_goodsFinish.html',{
         noClose:true,
-        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{id:id, tsOrderNo:tsOrderNo}); }
+        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{tsOrderNo:tsOrderNo}); }
     });
 });
 

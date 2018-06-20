@@ -32,7 +32,6 @@ $('#catchPortForm_warp').on('loads', function(event, params) {
 
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){
-    var id = app.util.getQueryString('id');
     var exParty = app.util.getQueryString('exParty')||1;
     var tsOrderNo = app.util.getQueryString('tsOrderNo');
     if (exParty && tsOrderNo) init(exParty,tsOrderNo); //exParty: 1车主上报，2货主上报
