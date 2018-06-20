@@ -79,7 +79,7 @@ $('#list-tbody').on('click','.ATdetail',function(){ //详情
     var goodsId = $(this).closest('tr').attr('data-id') || '';
     app.ui.detailOpen('./detail.html',{
         overlay:true,
-        cbk: function(){  $('#detailMain').trigger('loads',{goodsId:goodsId, detailType:2}); }
+        cbk: function(){  $('#detailMain').trigger('loads',{goodsId:goodsId, detailType:3}); }
     });
 }).on('click','.ATpay',function(){ //继续支付
     var id = $(this).closest('tr').attr('data-id') || '';
