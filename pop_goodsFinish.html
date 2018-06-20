@@ -8,34 +8,19 @@
 </head>
 <body>
 
-<div class="pop_confirm" id="goodsFinish_warp">
+<div class="pop_confirm pop_event" id="goodsFinish_warp">
     <h1 class="b pop_confirm_tit">提 示</h1>
     <div class="pop_confirm_con">
         <h2 class="blue b pop_h2">点击<span class="yellow">“装货完成”</span>后信息费将归货方所有</h2>
     </div>
     <div class="pop_confirm_btm">
         <a class="pop_btn pop_btn_cancel" href="javascript:;">取 消</a>
-        <a class="pop_btn pop_btn_ok" href="javascript:;">装货完成</a>
+        <a class="pop_btn pop_btn_ok" id="sbt_pop_goodsfinish" href="javascript:;">装货完成</a>
     </div>
 </div>
 
 <script src="js/jquery1.12.4.min.js"></script>
 <script src="js/app.js"></script>
-<script>
-    $('#goodsFinish_warp').on('loads', function(event, params) {
-        params = params || {};
-        if (!params.id) return;
-        init(params.id);
-    });
-    var loadWeb = app.util.getQueryString('loadWeb');
-    if(loadWeb=='yes'){
-        var id = app.util.getQueryString('id');
-        if (id) init(+id);
-    }
-
-    function init(id) {
-        console.log(id);
-    }
-</script>
+<script src="js/pop_goodsFinish.js"></script>
 </body>
 </html>

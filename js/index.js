@@ -42,23 +42,7 @@ dataReceiptMap = {//接单状态
     '9': '系统撤销货源退款',
     '10': '车主取销装货',
     '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
-},
-catchType = {
-    '2':{ '1':'车主爽约', '2':'其他' },
-    '1':{
-        '1': '发货方爽约',
-        '2': '货被他人拉走',
-        '3': '实际货物信息与描述不符',
-        '4': '装货时间延长，信息费延迟结算。',
-        '5': '虚假信息',
-        '6': '运价纠纷',
-        '7': '不想拉了',
-        '8': '其他'
-    }
 };
-
-
-
 
 //图片预加载
 $.each(app.conf.btnImgPreload||[], function(i,v){
@@ -106,15 +90,17 @@ $('#list-tbody').on('click','.ATdetail',function(){ //详情
     });
 }).on('click','.ATport',function(){ //异常上报
     var id = $(this).closest('tr').attr('data-id') || '';
+    var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_catchPortForm.html',{
         noClose:true,
-        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{id:id}); }
+        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{id:id, exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
     });
 }).on('click','.ATshipmented',function(){ //装货完成
     var id = $(this).closest('tr').attr('data-id') || '';
+    var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_goodsFinish.html',{
         noClose:true,
-        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{id:id}); }
+        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{id:id, tsOrderNo:tsOrderNo}); }
     });
 });
 

@@ -288,6 +288,19 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             getPayResult: '/tytpc/infoPayment/pcPay/getPayStatusById', //[支付]获取支付结果状态
             createCodeImg: '/tytpc/tytpc/payment/weixin/getPayQRCode' //[支付]生成二维码
         },
+        catchType : {
+            '2':{ '1':'车主爽约', '2':'其他' },
+            '1':{
+                '1': '发货方爽约',
+                '2': '货被他人拉走',
+                '3': '实际货物信息与描述不符',
+                '4': '装货时间延长,信息费延迟结算',
+                '5': '虚假信息',
+                '6': '运价纠纷',
+                '7': '不想拉了',
+                '8': '其他'
+            }
+        },
         btnImgPreload: [
             'img/btn_b_click.png',
             'img/btn_blue_big_click.png',

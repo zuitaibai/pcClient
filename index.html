@@ -58,6 +58,7 @@
         var status_c = tabLocal2ServerMap_allBook[list[i].robStatus]||'';
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
+        var exParty = list[i].exParty || '',  exType = list[i].exType || '';
     %>
         <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
@@ -168,7 +169,7 @@
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
 
-        var exParty = list[i].exParty, s = catchType[exParty]||{} ,catchTypes = s[list[i].exType]||'';
+        var exParty = list[i].exParty, s = app.conf.catchType[exParty]||{} ,catchTypes = s[list[i].exType]||'';
         var reportPerson = '';
         if(list[i].exParty==1) reportPerson= '车方';
         else if(list[i].exParty==2) reportPerson= '货主';
@@ -179,7 +180,7 @@
         var class1 = app.ui.getColor(manageStatus);
         var btns = app.ui.makeBtns('catch').join('&emsp; ');
     %>
-        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].id%>" data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
