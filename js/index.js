@@ -76,10 +76,10 @@ $('#tabs>li').on('click',function(){
 }).eq(0).trigger('click');
 
 $('#list-tbody').on('click','.ATdetail',function(){ //详情
-    var id = $(this).closest('tr').attr('data-id') || '';
+    var goodsId = $(this).closest('tr').attr('data-id') || '';
     app.ui.detailOpen('./detail.html',{
         overlay:true,
-        cbk: function(){  $('#detailMain').trigger('loads',{id:id}); }
+        cbk: function(){  $('#detailMain').trigger('loads',{goodsId:goodsId, detailType:2}); }
     });
 }).on('click','.ATpay',function(){ //继续支付
     var id = $(this).closest('tr').attr('data-id') || '';

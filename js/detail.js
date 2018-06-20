@@ -216,15 +216,26 @@ loadState('WeiYue')
 
 $('#detailMain').on('loads', function(event, params) {
     params = params || {};
-    if (!params.id) return;
-    init(params.id);
+    if (!params.goodsId || !params.detailType) return;
+    init(params.goodsId,params.detailType);
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){
-    var id = app.util.getQueryString('id');
-    if (id) init(+id);
+    var goodsId = app.util.getQueryString('goodsId');
+    var detailType = app.util.getQueryString('detailType');
+    if (goodsId&&detailType) init(goodsId,detailType);
 }
 
-function init(id) {
-    console.log(id);
+function init(goodsId,detailType) {
+    var postData = app.work.getCommonParamsObj();
+    postData.goodsId = goodsId;
+    postData.detailType = detailType;
+    app.ajax.post(app.conf.api.detailGoods,{
+        data: postData,
+        success:function(data){
+            if(data.code==200){
+                alert('详情请求成功')
+            }
+        }
+    });
 }
