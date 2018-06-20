@@ -13,7 +13,11 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
                     $('<div/>').css({display:'none'}).html(data.data).appendTo('body');
                     $('#getResult_alipay').show();
                 }else if(checked==8){//wechat
-                    $('#showCodeImg_wechat').show().find('img').attr('src',app.conf.api.createCodeImg+'?payUrl='+data.data);
+                    var userId = app.util.getQueryString('userId');
+                    var ticket = app.util.getQueryString('ticket');
+                    var clientVersion = app.util.getQueryString('clientVersion');
+                    var imgUrl = app.conf.api.createCodeImg+'?payUrl='+data.data+'&userId='+userId+'&ticket='+ticket+'&clientVersion='+clientVersion;
+                    $('#showCodeImg_wechat').show().find('img').attr('src',imgUrl);
                     setTimeout(function(){
                         wechatTimer = setInterval(function(){
                             if(wechatXHR && wechatXHR.abort) wechatXHR.abort();
@@ -41,7 +45,7 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
         }
     });
 }).on('click.pop','#btn_cannelResult_alipay',function(){
-    $('#getResult_alipay').hide();
+    $('#getResult_alipay').hide(); //todo:支付宝支付结果查看 界面处理
 }).on('click.pop','#btn_close_showCodeImg_wechat',function(){
     $('#showCodeImg_wechat').hide();
 }).on('click.pop','#pop_btn_cannel_choosePay',function(){
