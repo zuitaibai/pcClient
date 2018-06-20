@@ -1,4 +1,4 @@
-/*//app.util.openWin('./detail.html','', {width:700, height:600,params:{id:$(this).attr('data-id')}} );
+/*//app.util.openWin('./detail.html','', {width:700, height:600,params:{goodsId:$(this).attr('data-id')}} );
     app.util.openWin('./confirm.html','',
         {
             width:700,height:200,
