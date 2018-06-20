@@ -100,10 +100,9 @@ $('#list-tbody').on('click','.ATdetail',function(){ //详情
 }).on('click','.ATpay',function(){ //继续支付
     var id = $(this).closest('tr').attr('data-id') || '';
     var tsOrderNo = $(this).closest('tr').attr('data-tsOrderNo') || '';
-    var tsId = $(this).closest('tr').attr('data-tsId') || '';
     app.ui.popOpen('./pop_mediFeePay.html',{
         noClose:true,
-        cbk: function(){  $('#mediFeePay_warp').trigger('loads',{id:id, tsOrderNo: tsOrderNo, tsId:tsId}); }
+        cbk: function(){  $('#mediFeePay_warp').trigger('loads',{tsOrderNo: tsOrderNo}); }
     });
 }).on('click','.ATport',function(){ //异常上报
     var id = $(this).closest('tr').attr('data-id') || '';

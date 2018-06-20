@@ -306,10 +306,10 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             return {
                 clientSign: obj.clientSign ||'1',
                 osVersion: obj.osVersion ||'',
-                clientVersion: obj.clientVersion ||'3321', //todo:
+                clientVersion: obj.clientVersion ||'',
                 clientId: obj.clientId ||'',
-                userId: obj.userId ||'147540',
-                ticket: obj.ticket ||'86ae655a2091902078b6cb783779e4fc'//todo:
+                userId: obj.userId ||'',
+                ticket: obj.ticket ||''
             };
         }
     };
@@ -320,4 +320,4 @@ $(document)
     .on('click','.pop_btn_cancel,#dg_close', app.ui.popClose)
     .on('click','#btn_closeDetail',app.ui.detailClose)
     .on("ajaxStart",function(){$("#loading").show();})
-    .on("ajaxStop",function(){setTimeout(function(){$("#loading").hide();},0)});
+    .on("ajaxStop",function(){$("#loading").hide();});
