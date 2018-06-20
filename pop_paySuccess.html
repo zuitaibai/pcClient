@@ -16,13 +16,19 @@
         </div>
         <h3 class="b pop_h3">您已成功支付马大姐货物信息费：200元</h3>
         <div style="height: 65px;"></div>
-        <div class="pop_confirm_ft">
-            <a class="blue" href="javascript:;">查看订单>></a>
+        <div class="pop_confirm_ft pop_event">
+            <a class="blue" href="javascript:;" id="popbtn_showBookOrder">查看订单>></a>
         </div>
     </div>
 </div>
 
 <script src="js/jquery1.12.4.min.js"></script>
 <script src="js/app.js"></script>
+<script>
+    $('.pop_event').on('click.pop','#popbtn_showBookOrder',function(){
+        $('#tabs>li:eq(1)').trigger('click');
+        app.ui.popClose();
+    });
+</script>
 </body>
 </html>

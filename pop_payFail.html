@@ -17,13 +17,19 @@
         <h3 class="b pop_h3">本次交易不产生任何费用</h3>
         <h4 class="pop_sp"><span>客服帮助请拨打</span> <span class="b blue">400-6688-998</span></h4>
         <div style="height:45px;"></div>
-        <div class="pop_confirm_ft">
-            <a class="blue" href="javascript:;">返回待支付列表>></a>
+        <div class="pop_confirm_ft pop_event">
+            <a class="blue" href="javascript:;" id="btn_back_waitPayList">返回待支付列表>></a>
         </div>
     </div>
 </div>
 
 <script src="js/jquery1.12.4.min.js"></script>
 <script src="js/app.js"></script>
+<script>
+    $('.pop_event').on('click.pop','#btn_back_waitPayList',function(){
+        $('#tabs>li:eq(1)').trigger('click');
+        app.ui.popClose();
+    });
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-var tsOrderNo;
+var tsOrderNo, srcMsgId;
 $(document).on('click.pop',function(e){
     if($(e.target).hasClass('phonelist_item')){
         e.stopPropagation();
@@ -38,23 +38,20 @@ $('#btnGoPayStart').on('click.pop',goPayStart);
 
 $('#mediFeePay_warp').on('loads', function(event, params) {
     params = params || {};
-    if (!params.tsOrderNo || !params.id) return;
-    init(params.tsOrderNo,params.id);
+    if (!params.tsOrderNo) return;
+    init(params.tsOrderNo,params.srcMsgId||'');
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){
     var tsOrderNo = app.util.getQueryString('tsOrderNo');
-    var id = app.util.getQueryString('id');
-    if (tsOrderNo) init(+tsOrderNo,+id);
+    var srcMsgId = app.util.getQueryString('srcMsgId')||'';
+    if (tsOrderNo) init(+tsOrderNo,srcMsgId);
 }
 
-function init(tsOrderNo_,id) {
+function init(tsOrderNo_,srcMsgId_) {
     tsOrderNo = tsOrderNo_;
+    srcMsgId = srcMsgId_;
     $('#mediFeePay_warp').hide();
-    var html  = '<dd><a class="phonelist_item phonelist_item_checked" href="javascript:;">'+5555+'</a></dd>';
-    html += '<dt><a class="b phonelist_add" id="phonelist_add"  href="javascript:;">+添加电话</a></dt>';
-    $('#ph_choosed').text(5555);
-    $('#pop_choosePhone_list').html(html);
 
     var postData = app.work.getCommonParamsObj();
     postData.transportOrderNum = tsOrderNo_;
@@ -71,6 +68,20 @@ function init(tsOrderNo_,id) {
                         getPayWay(data.data.orderId,tsOrderNo_);
                     }else{
                         $('#mediFeePay_warp').show();
+                        app.ajax.post(app.conf.api.getTels,{ //获取电话列表
+                            data: app.work.getCommonParamsObj(),
+                            success: function(dd){
+                                if(dd.code==200 && dd.data && dd.data.length){
+                                    var html = [];
+                                    $.each(dd.data,function(i,v){
+                                        html.push('<dd><a class="phonelist_item '+(i===0?' phonelist_item_checked':'')+'" href="javascript:;">'+v.tel+'</a></dd>');
+                                    });
+                                    html.push('<dt><a class="b phonelist_add" id="phonelist_add"  href="javascript:;">+添加电话</a></dt>');
+                                    $('#ph_choosed').text(dd.data[0]['tel']);
+                                    $('#pop_choosePhone_list').html(html.join('\n'));
+                                }
+                            }
+                        });
                     }
                 }else{
                     app.ui.toastOpen('该订单已支付!请刷新页面');
@@ -81,18 +92,15 @@ function init(tsOrderNo_,id) {
     });
 }
 function goPayStart(){
-    var money = agencyMoney = $.trim($('#pop_textfield_money').val());
+    var money = $.trim($('#pop_textfield_money').val());
     if(!money){
         app.ui.toastOpen('请填入信息费数字！');
         return;
     }
-    createOrder();
-}
-function createOrder(){
     var postData = app.work.getCommonParamsObj();
-    postData.goodsId = 666; //srcMsgId
-    postData.telephone = 5555;
-    postData.agencyMoney = 31415926;
+    postData.goodsId = srcMsgId; //src_msg_id
+    postData.telephone = $.trim($('#ph_choosed').text());
+    postData.agencyMoney = money;
     postData.carOwnerPayType = 1;
     app.ajax.post(app.conf.api.saveOrder,{
         data: postData,
@@ -111,14 +119,18 @@ function getPayWay(orderId,transportOrderNum){
         data: postData,
         success:function(data){
             if(data && data.code==200){
-                if(data.data && data.data.channelList && data.data.channelList.length) openPop_choose(data.data.channelList,transportOrderNum);
+                if(data.data && data.data.channelList && data.data.channelList.length) openPop_choose(data.data.channelList,transportOrderNum,orderId);
+                else{
+                    app.ui.toastOpen('没有获取到支付方式！');
+                    app.ui.popClose();
+                }
             }
         }
     });
 }
-function openPop_choose(list,transportOrderNum){
+function openPop_choose(list,transportOrderNum,orderId){
     app.ui.popOpen('./pop_choosePayWay.html',{
         noClose:true,
-        cbk: function(){  $('#choosePayWay_warp').trigger('loads',{list:list,transportOrderNum:transportOrderNum}); }
+        cbk: function(){ $('#choosePayWay_warp').trigger('loads',{list:list,transportOrderNum:transportOrderNum,orderId}); }
     });
 }

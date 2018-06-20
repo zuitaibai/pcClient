@@ -195,7 +195,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                 detail = {t:'详情',c:'ATdetail'},
                 catchPort = {t:'异常上报', c:'ATport'},
                 shipmented = {t:'装货完成',c:'ATshipmented'};
-            var waitPay = [goOnPay], waitAgree = [detail], waitShipment = [catchPort,shipmented], yetFinish = [detail], reject = [goOnPay], catchs = [detail], ept = [];
+            var waitPay = [goOnPay], waitAgree = [detail], waitShipment = [catchPort,shipmented], yetFinish = [detail], reject = [detail], catchs = [detail], ept = [];
             waitPay.status = '待支付';waitAgree.status = '待同意';waitShipment.status = '待装货';
                 yetFinish.status = '已完成';reject.status = '拒绝/退费';catchs.status = '违约/异常';ept.status = '';
             return {
@@ -281,7 +281,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             detailGoods: '/plat/plat/infoFee/transport/getSingleDetail.action', //我的货源详情
 
             statusGoods: '/tytpc/infoPayment/commonPay/getGoodStatus', //[支付]查询货物状态
-            getTels: '',
+            getTels: '/tytpc/infoPayment/pcPay/getPayPhoneList', //获取信息费支付电话列表
             saveOrder: '/tytpc/infoPayment/pcPay/saveWayBill', //[支付]保存订单
             getPayWay: '/tytpc/infoPayment/pcPay/getPcPaymentChannel', //[支付]获取支付渠道
             sbtPay: '/tytpc/infoPayment/pcPay/submitPaymentInfo', //[支付]发起微信/支付宝支付
@@ -298,14 +298,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             'img/s_016.png',
             'img/s_017.png',
             'img/ss_001_click.png'
-        ],
-        action: {
-            'ATdetail': '详情',
-            'ATreportCatch': '异常上报',
-            'ATshipmented': '装货完成',
-            'ATreportCatch': '异常上报',
-            'ATreportCatch': '异常上报',
-        }
+        ]
     };
     app.work = {
         getCommonParamsObj: function(){
@@ -313,11 +306,10 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             return {
                 clientSign: obj.clientSign ||'1',
                 osVersion: obj.osVersion ||'',
-                clientVersion: obj.clientVersion ||'3321',
+                clientVersion: obj.clientVersion ||'3321', //todo:
                 clientId: obj.clientId ||'',
-                userId: obj.userId ||'147463',
-                //ticket: obj.ticket ||'token=CharacterEncodingFilter',
-                ticket: obj.ticket ||'f2423726e5ac108f36afc10bc4f7e246'
+                userId: obj.userId ||'147540',
+                ticket: obj.ticket ||'86ae655a2091902078b6cb783779e4fc'//todo:
             };
         }
     };
@@ -328,4 +320,4 @@ $(document)
     .on('click','.pop_btn_cancel,#dg_close', app.ui.popClose)
     .on('click','#btn_closeDetail',app.ui.detailClose)
     .on("ajaxStart",function(){$("#loading").show();})
-    .on("ajaxStop",function(){$("#loading").hide();});
+    .on("ajaxStop",function(){setTimeout(function(){$("#loading").hide();},0)});
