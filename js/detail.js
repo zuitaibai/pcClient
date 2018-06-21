@@ -233,7 +233,7 @@ function init(goodsId,detailType) {
         data: postData,
         success:function(data){
             if(data.code==200){
-                alert('详情请求成功')
+                console.log('详情请求成功');
             }
         }
     });

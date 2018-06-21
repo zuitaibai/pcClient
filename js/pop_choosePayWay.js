@@ -31,7 +31,7 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
                                         if(data.data==0) ;
                                         else{
                                             //todo: 用户操作动作什么契机关掉轮询
-                                            clearTimeout(wechatXHR);
+                                            clearInterval(wechatTimer);
                                             if(data.data==1) app.ui.popOpen('./pop_payFail.html');
                                             else if(data.data==2) app.ui.popOpen('./pop_paySuccess.html');
                                         }
@@ -45,11 +45,14 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
         }
     });
 }).on('click.pop','#btn_cannelResult_alipay',function(){
-    $('#getResult_alipay').hide(); //todo:支付宝支付结果查看 界面处理
+    $('#getResult_alipay').hide();
 }).on('click.pop','#btn_close_showCodeImg_wechat',function(){
-    $('#showCodeImg_wechat').hide();
+    if(confirm('关闭二维码将不再监听支付结果，确定要关闭？')){
+        clearInterval(wechatTimer);
+        $('#showCodeImg_wechat').hide();
+    }
 }).on('click.pop','#pop_btn_cannel_choosePay',function(){
-    clearTimeout(wechatTimer);
+    clearInterval(wechatTimer);
 }).on('click.pop','#btn_getResult_alipay',function(){
     var postData = app.work.getCommonParamsObj();
     postData.orderId = orderId;

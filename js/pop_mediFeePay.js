@@ -71,6 +71,7 @@ function init(tsOrderNo_,srcMsgId_) {
                             data: app.work.getCommonParamsObj(),
                             success: function(dd){
                                 if(dd.code==200 && dd.data && dd.data.length){
+                                    dd.data.reverse();
                                     var html = [];
                                     $.each(dd.data,function(i,v){
                                         html.push('<dd><a class="phonelist_item '+(i===0?' phonelist_item_checked':'')+'" href="javascript:;">'+v.tel+'</a></dd>');

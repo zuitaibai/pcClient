@@ -62,7 +62,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=msgFee%></td>
             <td><%-status%></td>
@@ -79,7 +79,7 @@
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].createTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
@@ -98,7 +98,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].payEndTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
@@ -117,7 +117,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].agreeTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
@@ -136,7 +136,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].loadTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
@@ -155,7 +155,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].refuseTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
@@ -182,7 +182,7 @@
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
-            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].startPoint||'')%></td>
+            <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].exTime,'HH:mm:ss')%></td>
             <td><%=msgFee%></td>
