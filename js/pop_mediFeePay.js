@@ -38,8 +38,7 @@ $('#btnGoPayStart').on('click.pop',goPayStart);
 
 $('#mediFeePay_warp').on('loads', function(event, params) {
     params = params || {};
-    if (!params.tsOrderNo) return;
-    init(params.tsOrderNo,params.srcMsgId||'');
+    if (params.tsOrderNo) init(params.tsOrderNo,params.srcMsgId||'');
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){

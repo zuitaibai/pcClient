@@ -26,8 +26,7 @@ $('.pop_event').on('click.pop','input[name=p_reason]',function(){
 
 $('#catchPortForm_warp').on('loads', function(event, params) {
     params = params || {};
-    if (!params.exParty || !params.tsOrderNo) return; //exParty: 1车主上报，2货主上报
-    init(params.exParty,params.tsOrderNo);
+    if (params.exParty && params.tsOrderNo) init(params.exParty,params.tsOrderNo);//exParty: 1车主上报，2货主上报
 });
 
 var loadWeb = app.util.getQueryString('loadWeb');

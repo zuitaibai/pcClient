@@ -67,15 +67,14 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
 });
 $('#choosePayWay_warp').on('loads', function(event, params) {
     params = params || {};
-    if (!params.list || !params.transportOrderNum || !params.orderId) return;
-    init(params.list,params.transportOrderNum,params.orderId);
+    if (params.list && params.transportOrderNum && params.orderId) init(params.list,params.transportOrderNum,params.orderId);
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){
     var list = app.util.getQueryString('list');
     var transportOrderNum = app.util.getQueryString('transportOrderNum');
     var orderId = app.util.getQueryString('orderId');
-    if (list) init(list,transportOrderNum,orderId);
+    if (list && transportOrderNum && orderId) init(list,transportOrderNum,orderId);
 }
 
 function init(list,transportOrderNum_,orderId_) {

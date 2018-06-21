@@ -15,8 +15,7 @@ $('.pop_event').on('click.pop','#sbt_pop_goodsfinish',function(){
 
 $('#goodsFinish_warp').on('loads', function(event, params) {
     params = params || {};
-    if (!params.tsOrderNo) return;
-    init(params.tsOrderNo);
+    if (params.tsOrderNo) init(params.tsOrderNo);
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){

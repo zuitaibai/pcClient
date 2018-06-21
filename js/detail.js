@@ -216,8 +216,7 @@ loadState('WeiYue')
 
 $('#detailMain').on('loads', function(event, params) {
     params = params || {};
-    if (!params.goodsId || !params.detailType) return;
-    init(params.goodsId,params.detailType);
+    if(params.goodsId&&params.detailType) init(params.goodsId,params.detailType);
 });
 var loadWeb = app.util.getQueryString('loadWeb');
 if(loadWeb=='yes'){
