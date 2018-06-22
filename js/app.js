@@ -195,8 +195,8 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                 detail = {t:'详情',c:'ATdetail'},
                 catchPort = {t:'异常上报', c:'ATport'},
                 shipmented = {t:'装货完成',c:'ATshipmented'};
-            var waitPay = [goOnPay], waitAgree = [detail], waitShipment = [catchPort,shipmented], yetFinish = [detail], reject = [detail], catchs = [detail], ept = [];
-            waitPay.status = '待支付';waitAgree.status = '待同意';waitShipment.status = '待装货';
+            var waitPay = [goOnPay], waitAgree = [detail], waitShipment = [shipmented,catchPort,detail], yetFinish = [detail], reject = [detail], catchs = [detail], ept = [];
+            waitPay.status = '待支付';waitAgree.status = '待同意';waitShipment.status = '装货中';
                 yetFinish.status = '已完成';reject.status = '拒绝/退费';catchs.status = '违约/异常';ept.status = '';
             return {
                 waitPay: waitPay,
@@ -220,7 +220,65 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             });
             rarr.status = sarr.status;
             return rarr;
-        }
+        },
+        norFilter: (function (tagProp) {
+            return function(data,warp){
+                warp = warp || document.body;
+                data = data || {};
+                $('['+tagProp+']',warp).each(function(){
+                    var str = $(this).attr(tagProp), filterArr = str.split('|'), dataKey = filterArr[0], sdata = '';
+                    var dataKeyArr = dataKey.split('.');
+                    if(dataKeyArr[0] in data){
+                        if(dataKeyArr.length>1){
+                            sdata =  data[dataKeyArr[0]][dataKeyArr[1]] || ''; // data-aj="agencyMoneyList.goodsOrderNo"
+                        }else sdata = data[dataKeyArr[0]] || ''; // data-aj="goodsOrderNo"
+
+                        if(filterArr.length!==1){
+                            var filterr = filterArr[1], sre = '', index = filterr.indexOf(':'),
+                                rule = [filterr.substring(0,index),filterr.substring(index+1)];
+                            if(rule[0]==='date'){ // data-aj="detailBean.firstPublishTime|date:hh: mm: ss"
+                                sre = app.util.dateFormat(sdata,rule[1]);
+                            }
+                            else if(rule[0]==='fmt'){// data-aj="detailBean.weight|fmt:%%吨"
+                                sre = rule[1].replace('%%',sdata);
+                            }
+                            else if(rule[0]==='obj'){// data-aj="exceptionBean.exStatus|obj:0:初始化,1:处理中,2:处理完成"
+                                var arr = rule[1].split(','), o = {};
+                                $.each(arr,function(i,v){
+                                    var sh = v.split(':');
+                                    o[sh[0]] = sh[1];
+                                });
+                                if(sdata in o) sre = o[sdata];
+                            }
+                            sdata = sre;
+                        }
+                    }
+                    $(this).html(sdata);
+                });
+            }
+        })('data-aj'),
+        classFilter: (function(tagProp){
+            return function(data,warp) {
+                warp = warp || document.body;
+                data = data || {};
+                $('[' + tagProp + ']', warp).each(function() {
+                    var arr = $(this).attr(tagProp).split('|'), re = '';
+                    var dd = arr[0], str = arr[1];
+                    var ddArr = dd.split('.'), dataGet = '';
+                    if(ddArr[0] in data){
+                        if(ddArr.length===1) dataGet = data[ddArr[0]]; // data-aj-class="detailBean|0:identificate-ico-no,1:identificate-ico-yet"
+                        else if(ddArr.length===2 && (ddArr[1] in data[ddArr[0]])) dataGet = data[ddArr[0]][ddArr[1]]; // data-aj-class="detailBean.verifyFlag|0:identificate-ico-no,1:identificate-ico-yet"
+                        var strArr = str.split(','), strO = {};
+                        $.each(strArr,function(i,v){
+                            var sarr = v.split(':');
+                            strO[sarr[0]] = sarr[1];
+                        });
+                        if(dataGet in strO) re = strO[dataGet];
+                    }
+                    if(re) $(this).addClass(re);
+                });
+            };
+        })('data-aj-class'),
     };
     app.ajax = function(url,type,params){
         params = params || {};
@@ -266,9 +324,9 @@ window.console = window['console']||{log:function(){},warn:function(){}};
 
         },
         colors: {
-            yellow: '待支付,待同意,待装货,拒绝,待处理,处理中',
+            yellow: '待支付,待同意,待装货,装货中,拒绝,待处理,处理中',
             red: '异常上报,违约异常',
-            gray: '已完成,处理完成',
+            gray: '已完成,已成交,处理完成',
             green: '继续支付',
             blue: '详情,装货完成'
         },
@@ -311,7 +369,21 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             'img/s_016.png',
             'img/s_017.png',
             'img/ss_001_click.png'
-        ]
+        ],
+        dataReceiptMap : {//接单状态
+            '0': '待接单',
+            '1': '接单成功',
+            '2': '货主拒绝',
+            '3': '系统拒绝',
+            '4': '同意装货',
+            '5': '车主装货完成',
+            '6': '系统装货完成',
+            '7': '异常上报', //--
+            '8': '货主撤销货源退款',
+            '9': '系统撤销货源退款',
+            '10': '车主取销装货',
+            '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
+        }
     };
     app.work = {
         getCommonParamsObj: function(){

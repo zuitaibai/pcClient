@@ -28,20 +28,6 @@ tabLocal2ServerMap_allBook = {
     '2': 'reject', //拒绝/退费
     '3': 'reject',
     '7': 'catch'
-},
-dataReceiptMap = {//接单状态
-    '0': '待接单',
-    '1': '接单成功',
-    '2': '货主拒绝',
-    '3': '系统拒绝',
-    '4': '同意装货',
-    '5': '车主装货完成',
-    '6': '系统装货完成',
-    '7': '异常上报', //--
-    '8': '货主撤销货源退款',
-    '9': '系统撤销货源退款',
-    '10': '车主取销装货',
-    '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
 };
 
 //图片预加载
@@ -148,7 +134,7 @@ function request(){
                 var showMore = $('#listLoadMore').show();
                 //todo:
                 //if(len<app.util.getQueryString('条数')) showMore.children('span').show().siblings().hide();
-                if(len<5) showMore.children('span').show().siblings().hide();
+                if(len<15) showMore.children('span').show().siblings().hide();
                 else showMore.children('a').show().siblings().hide();
             }
             //无数据

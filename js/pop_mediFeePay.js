@@ -8,7 +8,8 @@ $(document).on('click.pop',function(e){
         $('#pop_choosePhone_list').hide();
     }else if($(e.target).hasClass('phonelist_add')){//添加电话
         e.stopPropagation();
-        $('#addphone_w').show().find('.contr').val('');
+        //$('#addphone_w').show().find('.contr').val('');
+        //链接到个人中心 限于目前客户端无法实现，暂隐藏此按钮(css隐藏)
     }else if($(e.target).attr('id')==='btn_choose'){
         e.stopPropagation();
         $('#pop_choosePhone_list').toggle();

@@ -12,68 +12,99 @@
 
     <div class="clr header_d"><p class="fl b">货物详情</p><a href="javascript:;" class="fr" id="btn_closeDetail"></a></div>
     <div class="main_d pop_event" id="detailMain">
-    <!--
         <div class="clr top" id="userTopTitle">
-            <div class="fl photo"><img src="" alt=""></div>
+            <div class="fl photo" id="userPic_warp"><!--<img src="" alt="">--></div>
             <div class="fl userinfo">
-                <p>用 户 名：<span class="b span1">金桥货运</span></p>
-                <p>信&emsp;誉：<span class="span2">100</span></p>
-                <p>首次发布：<span class="red b span3">09：48：28</span></p>
+                <p>用 户 名：<span class="b span1" data-aj="detailBean.nickName"></span></p><!--todo:-->
+                <p>信&emsp;誉：<span class="span2" data-aj="detailBean.userPart"></span></p>
+                <p>首次发布：<span class="red b span3" data-aj="detailBean.firstPublishTime|date:hh: mm: ss"></span></p>
             </div>
-            <div class="fl identificate-ico identificate-ico-yet"></div>identificate-ico-mid identificate-ico-no
-            <div class="fr sm-ico">
-                <span class="fl favorites"><a class="fl" href="javascript:;">收藏</a></span>
-                <span class="fl report"><a class="fl" href="javascript:;">举报</a></span>
-            </div>
-        </div>-->
+            <div class="fl identificate-ico" data-aj-class="detailBean.verifyFlag|0:identificate-ico-no,1:identificate-ico-yet"></div><!--identificate-ico-mid identificate-ico-no--><!--0未验证 1验证-->
+            <!--<div class="fr sm-ico">
+                <span class="fl favorites" id="favorites_dt"><a class="fl" href="javascript:;">收藏</a></span>
+                <span class="fl report" id="report_dt"><a class="fl" href="javascript:;">举报</a></span>
+            </div>-->
+        </div>
 
-       <!--  <div class="b neck" id="startToEnd">
+         <div class="b neck" id="startToEnd">
             <div class="start">
-                <strong>山西太原市杏花岭区</strong>
-                <p>河北保定市徐水县连七八糟区58号院</p>
+                <strong data-aj="detailBean.startPoint"></strong>
+                <p data-aj="detailBean.startDetailAdd"></p>
             </div>
             <div class="end">
-                <strong>山东菏泽市曹县</strong>
-                <p>山东菏泽曹县连七八糟区58号院</p>
+                <strong data-aj="detailBean.destPoint"></strong>
+                <p data-aj="detailBean.destDetailAdd"></p>
             </div>
             <div class="goods">
-                <strong>200挖机</strong>
+                <strong data-aj="detailBean.taskContent"></strong>
             </div>
         </div>
         <ul class="ful sinfo" id="goodsInfo">
-            <li><label>重量：</label><span>50吨</span></li>
-            <li><label>尺寸：</label><span></span></li>
-            <li><label>运价：</label><span></span></li>
-            <li><label>备注：</label><span></span></li>
-            <li class="blue last"><em id="telArea"><label>电话：</label><span>13568890668</span></em><a id="showTel" href="javascript:;">查看电话 >></a></li>
+            <li><label>重量：</label><span data-aj="detailBean.weight|fmt:%%吨"></span></li>
+            <li><label>尺寸：</label><span id="goodsSize_label"></span></li>
+            <li><label>运价：</label><span data-aj="detailBean.price"></span></li>
+            <li><label>备注：</label><span data-aj="detailBean.remark"></span></li>
+            <li class="blue last"><em id="telArea"><label>电话：</label><span data-aj="detailBean.uploadCellPhone"></span></em><a id="showTel" href="javascript:;">查看电话 >></a></li>
         </ul>
-        <div class="feeDetail" id="goodsDetail">
-            <div class="clr fftit">
-                <strong class="fl">信息费详情</strong>
-                <span class="fr">运单号：<span>201825302344395924</span></span>
-            </div>
-            <div id="theDetail"></div>
-            <a class="btn_1 btn_green" href="javascript:;" id="s">装货完成</a>
-        </div>
+        <div class="goodsDetail_list" id="goodsDetail_list"></div>
+
         <div class="catch_report" id="reportInfo">
             <div class="clr fftit">
                 <strong class="fl">异常上报</strong>
             </div>
-            <p class="ffzh"><label>异常上报状态</label><span class="blue">待处理</span></p>
-            <p class="ffzh"><label>异常上报时间</label><span>2018-05-30  10:24</span></p>
+            <p class="ffzh"><label>异常上报状态</label><span class="blue" data-aj="exceptionBean.exStatus|obj:0:初始化,1:处理中,2:处理完成"></span></p>
+            <p class="ffzh"><label>异常上报时间</label><span data-aj="exceptionBean.time|date:yyyy-MM-dd &emsp; hh:mm"></span></p>
         </div>
         <div class="b ffoot" id="customerTel">
             <p class="blue">客服电话&emsp;400-6688-998</p>
         </div>
-        <div class="footbtns" id="footbtns"></div>
+        <div class="footbtns" id="footbtns">
+            <a class="btn_1  btn_blue btnss" href="javascript:;">直接发布</a>
+            <a class="btn_1  btn_blue btnss" href="javascript:;">设置成交</a>
+            <a class="btn_1  btn_blue btnss" href="javascript:;">异常上报</a>
+            <a class="btn_1  btn_blue btnss" href="javascript:;">同意成交</a>
+            <a class="btn_1border btnss" href="javascript:;">拒绝成交</a>
+            <a class="btn_1border btnss" href="javascript:;">搜狗地图</a>
+            <a class="btn_1border btnss" href="javascript:;">百度地图</a>
+            <a class="btn_1border btnss" href="javascript:;">编辑再发布</a>
+            <a class="btn_1border btnss" href="javascript:;">撤销货源</a>
+        </div>
         <div class="footbtns2" id="refuseAll">
             <a class="btn_1 btn_blue_big" href="javascript:;">拒绝所有车主</a>
-        </div> -->
+        </div>
     </div>
 
 </div>
+<script id="tmp_goodsDetail_list" type="text/html">
+    <%for(var i=0,l=list.length;i<l;i++){
+        var payWay = '';
+        if(list[i].payChannel==1) payWay = '支付宝';
+        else if(list[i].payChannel==2) payWay = '易宝/银行卡';
+        else if(list[i].payChannel==3) payWay = '微信';
+        var reseaon = '';
+        if(list[i].robStatus in app.conf.dataReceiptMap) reseaon = app.conf.dataReceiptMap[list[i].robStatus];
+    %>
+        <div class="feeDetail">
+            <div class="clr fftit">
+                <strong class="fl">信息费详情</strong>
+                <span class="fr fftit_r">运单号：<span><%=(list[i].goodsOrderNo||'')%></span></span>
+            </div>
+            <div class="feeDetail_list">
+                <p class="ffzh fd_list_phone"><label>车主电话</label><span><%=(list[i].carOwnerTelephone||'')%></span></p>
+                <p class="ffzh fd_list_fee"><label>已支付信息费</label><span class="b yellow"><%=(list[i].payAgencyMoney?parseInt(list[i].payAgencyMoney/100,10):0)%>元</span></p>
+                <p class="ffzh fd_list_paytime"><label>支付时间</label><span><%=(list[i].payEndTime?app.util.dateFormat(list[i].payEndTime,'yyyy-MM-dd hh:mm'):'')%></span></p>
+                <p class="ffzh fd_list_agreetime"><label>同意装货时间</label><span><%=(list[i].goodsOwnerAgreeTime?app.util.dateFormat(list[i].goodsOwnerAgreeTime,'yyyy-MM-dd hh:mm'):'')%></span></p>
+                <p class="ffzh fd_list_payway"><label>支付方式</label><span><%=payWay%></span></p>
+                <p class="ffzh fd_list_reseaon"><label>原因</label><span><%=reseaon%></span></p>
+            </div>
+            <a class="btn_1 btn_green btn_1_nth1" href="javascript:;">装货完成</a>
+            <a class="btn_1 btn_green btn_1_nth2" href="javascript:;">支付信息费</a>
+        </div>
+    <%}%>
+</script>
 
 <script src="js/jquery1.12.4.min.js"></script>
+<script src="js/baiduTemplate.js"></script>
 <script src="js/app.js"></script>
 <script src="js/detail.js"></script>
 </body>

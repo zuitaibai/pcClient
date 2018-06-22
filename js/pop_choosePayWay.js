@@ -30,7 +30,6 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
                                     if(data.code==200){//0：待支付；1：支付失败；2：支付成功；
                                         if(data.data==0) ;
                                         else{
-                                            //todo: 用户操作动作什么契机关掉轮询
                                             clearInterval(wechatTimer);
                                             if(data.data==1) app.ui.popOpen('./pop_payFail.html');
                                             else if(data.data==2) app.ui.popOpen('./pop_paySuccess.html');

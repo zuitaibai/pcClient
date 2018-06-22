@@ -24,7 +24,7 @@
 .top {
 	color: #666;
 	font-size: 14px;
-	padding: 0 20px;
+	padding: 10px 20px;
 }
 .photo {
 	width: 60px;
@@ -78,28 +78,28 @@
 	margin-top: 12px;
 }
 .favorites, .report {
-	padding: 0 8px;
-	width: 30px;
+	display:none;
 }
 .favorites a, .report a {
+	width:40px;
 	font-size: 12px;
 	color: #666666;
 	background-position: center top;
 	background-repeat: no-repeat;
 	text-align: center;
-	padding-top: 22px;
+	padding: 22px 8px 0;
 	line-height: 20px;
 }
 .favorites a {
 	background-image: url(../img/s_011.png);
 }
-.favorites a:active, .favorites_click a {
+.favorites a:hover, .favorites_click a {
 	background-image: url(../img/s_016.png);
 }
 .report a {
 	background-image: url(../img/s_012.png);
 }
-.report a:active, .report_click a {
+.report a:hover, .report_click a {
 	background-image: url(../img/s_017.png);
 }
 .neck {
@@ -132,11 +132,13 @@
 	color: #666666;
 	line-height: 1.1;
 	padding-left: 33px;
+	display:none;
 }
 .sinfo, .feeDetail, .catch_report {
 	border-bottom: 1px solid #E7E7E7;
 	padding: 0 20px 12px;
 }
+.catch_report{display:none;}
 .sinfo {
 	padding: 12px 20px 9px;
 	font-size: 16px;
@@ -159,11 +161,10 @@
 	color: #4381E6;
 }
 .sinfo li.last em {
-	display: none;
 	font-style: normal;
 }
 .sinfo li.last a {
-	color: #4381E6;
+		color: #4381E6;display: none;
 }
 .fftit {
 	font-size: 14px;
@@ -193,18 +194,27 @@
 .ffzh span.blue {
 	color: #4381E6;
 }
+.goodsDetail_list{
+	display:none;
+}
 .feeDetail {
 	position: relative;
 }
 .feeDetail .btn_1 {
 	position: absolute;
-	right: 20px;
 	bottom: 20px;
 }
+.feeDetail .btn_1_nth1{right: 20px;}
+.feeDetail .btn_1_nth2{right: 130px;}
+.feeDetail .btn_1_nth3{right: 240px;}
+.feeDetail .btn_1_nth4{right: 350px;}
+.feeDetail .btn_1_nth5{right: 460px;}
+
 .ffoot {
 	line-height: 52px;
 	font-size: 16px;
 	padding: 0 20px 5px;
+	display:none;
 }
 .footbtns {
 	text-align: right;
@@ -212,16 +222,19 @@
 	line-height: 58px;
 	vertical-align: middle;
 	padding: 0 20px;
+	display:none;
 }
 .footbtns .btn_1, .footbtns .btn_1border {
 	margin-left: 8px;
 }
+.footbtns .btnss{display:none;}
 .footbtns2 {
 	border-top: 1px solid #E7E7E7;
 	height: 66px;
 	line-height: 66px;
 	vertical-align: middle;
 	text-align: center;
+	display:none;
 }
 .footbtns .btn_1, .footbtns .btn_1border, .footbtns2 .btn_1 {
 	font-weight: bold;
