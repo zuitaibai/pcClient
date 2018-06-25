@@ -2,7 +2,7 @@ a{text-decoration: none;}
 
 .pop_confirm{padding:20px 30px 28px;background:#fff;position:relative;}
 .pop_confirm_tit{line-height: 38px;font-size: 20px;color: #4381E6;text-align: center;}
-.pop_confirm_con{min-height:170px;_height:expression(this.scrollHeight < 170 ? "170px" : "auto");}
+.pop_confirm_con{min-height:170px;zoom:1;overflow:hidden;position:relative;_height:expression(this.scrollHeight < 170 ? "170px" : "auto");}
 .pop_h2{padding-top:26px;font-size:20px;text-align: center;line-height:40px;}
 .pop_h3{font-size: 18px;color: #666666;text-align: center;line-height: 38px;}
 .pop_h4{line-height: 30px;font-size: 14px;color: #666666;text-align: center;}
@@ -44,10 +44,11 @@ a{text-decoration: none;}
 .catchForm ul li span{margin-left:5px;}
 .catchForm ul li.active{color:#4381E6;font-weight:bold;}
 .catchForm ul li.last{width:100%;}
-.catchForm div{margin-top:10px;border: 1px solid #4381E6;border-radius: 2px;padding:10px 14px;position: relative;}
-.catchForm div textarea{background: #FFFFFF;border:none;width:100%;height:50px;resize: none;font-size: 14px;color: #666666;line-height: 1.1;}
-.catchForm div textarea:focus{outline:none;}
-.catchForm div span{position: absolute;bottom:9px;right:10px;font-size: 12px;color: #CCCCCC;}
+.catchFormdiv1{margin-top:10px;border:1px solid #4381E6;border-radius:2px;padding:10px 14px;overflow: hidden;}
+.catchFormdiv1 div{position: relative;z-index: 14;zoom:1;height: 50px;overflow:hidden;}
+.catchFormdiv1 div textarea{background:#FFFFFF;border:none;width:100%;height:100%;resize:none;font-size:14px;color:#666;line-height:1.1;}
+.catchFormdiv1 div textarea:focus{outline:none;}
+.catchFormdiv1 div span{position: absolute;bottom:9px;right:10px;font-size: 12px;color: #CCCCCC;z-index: 17;}
 
 .payway_list label{display:block;padding:14px 0;border-bottom:1px solid #E7E7E7;}
 .payway_list label input{margin:13px 2px 0 0;}
