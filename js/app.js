@@ -278,7 +278,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                     if(re) $(this).addClass(re);
                 });
             };
-        })('data-aj-class'),
+        })('data-aj-class')
     };
     app.ajax = function(url,type,params){
         params = params || {};
@@ -321,7 +321,6 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             yetFinish: '已完成',
             reject: '拒绝/退费',
             catch: '违约/异常'
-
         },
         colors: {
             yellow: '待支付,待同意,待装货,装货中,拒绝,待处理,处理中',
