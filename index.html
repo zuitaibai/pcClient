@@ -60,7 +60,7 @@
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
         var exParty = list[i].exParty || '',  exType = list[i].exType || '';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>">
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
@@ -78,7 +78,7 @@
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
             <td><%=app.util.dateFormat(list[i].createTime,'HH:mm:ss')%></td>
@@ -96,7 +96,7 @@
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
@@ -115,7 +115,7 @@
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
@@ -153,7 +153,7 @@
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
@@ -180,7 +180,7 @@
         var class1 = app.ui.getColor(manageStatus);
         var btns = app.ui.makeBtns('catchs').join('&emsp; ');
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>">
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
