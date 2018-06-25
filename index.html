@@ -134,7 +134,7 @@
         var arr = app.ui.makeBtns(status_c);
         var status = '<span class="'+app.ui.getColor(arr.status||'')+'">'+arr.status+'</span>';
     %>
-        <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>" >
+        <tr data-id="<%=list[i].tsId%>" data-tsOrderNo="<%=list[i].tsOrderNo%>" >
             <td><%=(list[i].tsOrderNo||'')%></td>
             <td><%=(list[i].startPoint||'')%> ⇀ <%=(list[i].destPoint||'')%></td>
             <td><%=(list[i].taskContent||'')%></td>
