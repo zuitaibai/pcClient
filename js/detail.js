@@ -1,6 +1,24 @@
 $('.wraper_d').on('click.detail', '#showTel', function() {
     $('#telArea').show();
     $(this).hide();
+}).on('click.pop','.ATpay',function(){//支付信息费按钮
+    var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+    app.ui.popOpen('./pop_mediFeePay.html',{
+        noClose:true,
+        cbk: function(){  $('#mediFeePay_warp').trigger('loads',{tsOrderNo: tsOrderNo}); }
+    });
+}).on('click.pop','.ATshipmented',function(){//装货完成
+    var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+    app.ui.popOpen('./pop_goodsFinish.html',{
+        noClose:true,
+        cbk: function(){  $('#goodsFinish_warp').trigger('loads',{tsOrderNo:tsOrderNo}); }
+    });
+}).on('click.pop','.ATport',function(){//异常上报
+    var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+    app.ui.popOpen('./pop_catchPortForm.html',{
+        noClose:true,
+        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
+    });
 });
 
 var felist = [
@@ -217,9 +235,9 @@ function init(goodsId,detailType) {
                 if('') $('#userPic_warp').html('<img src="" alt="">');*/
                 //长宽高
                 var sizeStr = '';
-                if(detialD.length) sizeStr += '长：'+detialD.length+' 米；';
-                if(detialD.wide) sizeStr += '宽：'+detialD.wide+' 米；';
-                if(detialD.high) sizeStr += '高：'+detialD.high+' 米；';
+                if(detialD.length) sizeStr += '长: '+detialD.length+'米；';
+                if(detialD.wide) sizeStr += '宽: '+detialD.wide+'米；';
+                if(detialD.high) sizeStr += '高: '+detialD.high+'米';
                 $('#goodsSize_label').html(sizeStr);
                 var b = {
                     code: 200,
@@ -340,7 +358,7 @@ function init(goodsId,detailType) {
                         }
                     }
                 };
-                function makeCarsideFeeListHtml(list){
+                function fillCarsideFeeListHtml(list){
                     var re = [];
                     for(var i=0,l=list.length;i<l;i++) {
                         var payWay = '';
@@ -357,49 +375,54 @@ function init(goodsId,detailType) {
                             htm_payWay = '<p class="ffzh fd_list_payway"><label>支付方式</label><span>'+payWay+'</span></p>',
                             htm_resoean = '<p class="ffzh fd_list_payway"><label>原因</label><span>'+reseaon+'</span></p>',
                             htm_shipmentedTime = '<p class="ffzh fd_list_payway"><label>完成装货时间</label><span>'+(list[i].carOwnerLoadfinishedTime?app.util.dateFormat(list[i].carOwnerLoadfinishedTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>';
-                        var htm_arr = [];
-                        var btns = '';
-                        if(list[i].robStatus==0){
-                            return '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1" href="javascript:;">支付信息费</a></div>'
-                        }else if(list[i].robStatus==1){
-                            return '';
-                        }else if(list[i].robStatus==2 || list[i].robStatus==3 || list[i].robStatus==8 || list[i].robStatus==9){
-                            htm_arr = [htm_payMoney,htm_resoean];
-                            btns = '';
-                        }else if(list[i].robStatus==4){
-                            htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime];
-                            btns = '<a class="btn_1 btn_green btn_1_nth1" href="javascript:;">装货完成</a>';
-                        }else if(list[i].robStatus==5 || list[i].robStatus==6){
-                            htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
-                            btns = '';
-                        }else if(list[i].robStatus==7){
-                            htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
-                            btns = '';
+                        var item='', ifCatch;
+                        if(list[i].robStatus==0){//待接单
+                            item =  '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detialD.tsOrderNo+'">支付信息费</a></div>'
+                        }else if(list[i].robStatus==1){//接单成功
+                            item = '';
+                        }else{
+                            var btns = '', htm_arr = [];
+                            if(list[i].robStatus==2 || list[i].robStatus==3 || list[i].robStatus==8 || list[i].robStatus==9){
+                                //货主拒绝、系统拒绝、货主撤消/退款、系统撤消/退款
+                                htm_arr = [htm_payMoney,htm_resoean];
+                                btns = '';
+                            }else if(list[i].robStatus==4){//同意装货
+                                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime];
+                                btns = '<a class="btn_1 btn_green btn_1_nth1 ATshipmented" href="javascript:;" data-tsOrderNo="'+detialD.tsOrderNo+'">装货完成</a> <a data-tsOrderNo="'+detialD.tsOrderNo+'" class="btn_1 btn_green btn_1_nth2 ATport" href="javascript:;">异常上报</a>';
+                            }else if(list[i].robStatus==5 || list[i].robStatus==6){//装货完成、系统装货完成
+                                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
+                                btns = '';
+                            }else if(list[i].robStatus==7){//异常上报
+                                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
+                                btns = '';
+                                ifCatch = true;
+                            }
+                            //list[i].robStatus==11 接单失败
+                            //list[i].robStatus==10 车主取消装货
+                            item = '<div class="feeDetail">\
+                                <div class="clr fftit">\
+                                    <strong class="fl">信息费详情</strong>\
+                                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
+                                </div>\
+                                <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
+                                '+btns+'\
+                            </div>';
                         }
-                        var item = '<div class="feeDetail">\
-                            <div class="clr fftit">\
-                                <strong class="fl">信息费详情</strong>\
-                                <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
-                            </div>\
-                            <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
-                            '+btns+'\
-                        </div>';
                         re.push(item);
                     }
-                    return re.join('\n');
+                    re.length && $('#goodsDetail_list').html(re.join('\n')).show();
+                    return ifCatch;
                 }
                 /*detailType:入口处：1找货列表/收藏列表的详情 2我的货源列表的详情 3已接单列表的详情 4精准货源5猜你喜欢*/
                 if(detailType==3){
-                    /*需要信息费*/
-                    if(detialD.isInfoFee==1){
-                        /*信息费列表数据填充*/
+                    if(detialD.isInfoFee==1){//需要信息费
+                        //信息费列表数据填充
                         if(dData.agencyMoneyList && dData.agencyMoneyList.length){
-                            var html = makeCarsideFeeListHtml()(dData.agencyMoneyList);
-                            html && $('#goodsDetail_list').html().show();
+                            var fill = fillCarsideFeeListHtml(dData.agencyMoneyList);
+                            if(fill) $('#reportInfo,#customerTel').show();
                         }
                     }
-                    /*不需要信息费*/
-                    else{
+                    else{//不需要信息费
                         if(detialD.status==0);//无效
                         else if(detialD.status==1);//有效（发布中）
                         else if(detialD.status==4);//成交
