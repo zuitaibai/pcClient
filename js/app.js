@@ -204,7 +204,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                 waitShipment: waitShipment,
                 yetFinish: yetFinish,
                 reject: reject,
-                catch: catchs
+                catchs: catchs
             }[str] || ept;
         },
         makeBtns: function(arrOrStr){
@@ -320,7 +320,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             yetExpires: '已撤消/过期', //
             yetFinish: '已完成',
             reject: '拒绝/退费',
-            catch: '违约/异常'
+            catchs: '违约/异常'
         },
         colors: {
             yellow: '待支付,待同意,待装货,装货中,拒绝,待处理,处理中',

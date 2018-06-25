@@ -27,7 +27,7 @@ tabLocal2ServerMap_allBook = {
     '6': 'yetFinish',
     '2': 'reject', //拒绝/退费
     '3': 'reject',
-    '7': 'catch'
+    '7': 'catchs'
 };
 
 //图片预加载
@@ -101,7 +101,7 @@ function changeTab(eq) {
     $('#list-thead>tr.thead_'+key).show().siblings().hide();
     if(key==='all'){
         postDataTemp.url = app.conf.api.listAll;
-    }else if(key==='catch'){
+    }else if(key==='catchs'){
         postDataTemp.url = app.conf.api.listCatch;
         $.extend(postDataTemp.data, {queryMenuType: 1}); //1车主上报，2货主上报
     }else{

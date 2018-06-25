@@ -19,7 +19,7 @@
             <li data-t="waitShipment" data-type2="2"><a class="btn_2border" href="javascript:;">待装货</a><span class="tabpop"><i></i><span></span><em></em></span></li>
             <li data-t="yetFinish" data-type2="3"><a class="btn_2border" href="javascript:;">已完成</a><span class="tabpop"><i></i><span></span><em></em></span></li>
             <li data-t="reject" data-type2="4"><a class="btn_2border" href="javascript:;">拒绝/退费</a><span class="tabpop"><i></i><span></span><em></em></span></li>
-            <li data-t="catch" data-type2="5"><a class="btn_2border" href="javascript:;">违约/异常</a><span class="tabpop"><i></i><span></span><em></em></span></li>
+            <li data-t="catchs" data-type2="5"><a class="btn_2border" href="javascript:;">违约/异常</a><span class="tabpop"><i></i><span></span><em></em></span></li>
         </ul>
     </div>
 
@@ -178,7 +178,7 @@
         else if(list[i].exStatus==1) manageStatus= '处理中';
         else if(list[i].exStatus==2) manageStatus= '处理完成';
         var class1 = app.ui.getColor(manageStatus);
-        var btns = app.ui.makeBtns('catch').join('&emsp; ');
+        var btns = app.ui.makeBtns('catchs').join('&emsp; ');
     %>
         <tr data-id="<%=list[i].tsId%>"data-tsOrderNo="<%=list[i].tsOrderNo%>">
             <td><%=(list[i].tsOrderNo||'')%></td>
