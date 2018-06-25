@@ -40,6 +40,7 @@ a{text-decoration: none;}
 .catchForm ul li{width:49.99%;_display:inline;}
 .catchForm ul li,.catchForm ul li label{vertical-align: middle;}
 .catchForm ul li input,.catchForm ul li span{display:inline-block;vertical-align: middle;}
+.catchForm ul li input{width: 14px;height:14px;}
 .catchForm ul li span{margin-left:5px;}
 .catchForm ul li.active{color:#4381E6;font-weight:bold;}
 .catchForm ul li.last{width:100%;}
