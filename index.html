@@ -32,7 +32,7 @@
             <tr class="thead_waitShipment hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>同意装货时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
             <tr class="thead_yetFinish hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>成交时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
             <tr class="thead_reject hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>拒绝时间</th><th>已付信息费</th><th>货物状态</th><th>操作</th></tr>
-            <tr class="thead_catch hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>上报时间</th><th>已付信息费</th><th>异常类型</th><th>上报人</th><th>货物状态</th><th>操作</th></tr>
+            <tr class="thead_catchs hide"><th>运单号</th><th>路线</th><th>货物信息</th><th>上报时间</th><th>已付信息费</th><th>异常类型</th><th>上报人</th><th>货物状态</th><th>操作</th></tr>
             </thead>
             <tbody id="list-tbody"></tbody>
         </table>
@@ -164,16 +164,15 @@
         </tr>
     [@}@]
 </script>
-<script id="tr_tmp_catch" type="text/html">
+<script id="tr_tmp_catchs" type="text/html">
     [@for(var i=0,l=list.length;i<l;i++){
         var msgFee = '';
         if(list[i].payAmount) msgFee = parseInt(list[i].payAmount/100,10) + '元';
-
         var exParty = list[i].exParty, s = app.conf.catchType[exParty]||{} ,catchTypes = s[list[i].exType]||'';
         var reportPerson = '';
         if(list[i].exParty==1) reportPerson= '车方';
         else if(list[i].exParty==2) reportPerson= '货主';
-        var manageStatus = ''; //0初始化1处理中2处理完成
+        var manageStatus = '';
         if(list[i].exStatus==0) manageStatus= '待处理';
         else if(list[i].exStatus==1) manageStatus= '处理中';
         else if(list[i].exStatus==2) manageStatus= '处理完成';

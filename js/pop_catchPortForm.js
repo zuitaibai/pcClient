@@ -23,6 +23,11 @@ $('.pop_event').on('click.pop','input[name=p_reason]',function(){
         }
     });
 });
+$('#resonOther').on('propertychange',function(e){
+    var $this = $(this), v = $.trim($this.val()), len = v.length;
+    if(len>100) $this.val(v.substring(0,len=100));
+    $this.next().text(len+'/100');
+});
 
 $('#catchPortForm_warp').on('loads', function(event, params) {
     params = params || {};

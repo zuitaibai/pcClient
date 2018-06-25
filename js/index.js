@@ -127,6 +127,7 @@ function request(){
             if(data.data.data){
                 var len = data.data.data.length || 0;
                 if(len){
+                    console.log(key);
                     postDataTemp.data.queryID = data.data.data[len-1]['sortId']||0;
                     var html = baidu.template('tr_tmp_'+key, {list:data.data.data});
                     $('#list-tbody')[ifMore?'append':'html'](html);
