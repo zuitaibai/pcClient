@@ -132,6 +132,6 @@ function getPayWay(orderId,transportOrderNum){
 function openPop_choose(list,transportOrderNum,orderId){
     app.ui.popOpen('./pop_choosePayWay.html',{
         noClose:true,
-        cbk: function(){ $('#choosePayWay_warp').trigger('loads',{list:list,transportOrderNum:transportOrderNum,orderId}); }
+        cbk: function(){ $('#choosePayWay_warp').trigger('loads',{list:list,transportOrderNum:transportOrderNum,orderId:orderId}); }
     });
 }

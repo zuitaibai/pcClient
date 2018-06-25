@@ -76,34 +76,34 @@
 
 </div>
 <script id="tmp_goodsDetail_list" type="text/html">
-    <%for(var i=0,l=list.length;i<l;i++){
+    [@for(var i=0,l=list.length;i<l;i++){
         var payWay = '';
         if(list[i].payChannel==1) payWay = '支付宝';
         else if(list[i].payChannel==2) payWay = '易宝/银行卡';
         else if(list[i].payChannel==3) payWay = '微信';
         var reseaon = '';
         if(list[i].robStatus in app.conf.dataReceiptMap) reseaon = app.conf.dataReceiptMap[list[i].robStatus];
-    %>
+    @]
         <div class="feeDetail">
             <div class="clr fftit">
                 <strong class="fl">信息费详情</strong>
-                <span class="fr fftit_r">运单号：<span><%=(list[i].goodsOrderNo||'')%></span></span>
+                <span class="fr fftit_r">运单号：<span>[@=(list[i].goodsOrderNo||'')@]</span></span>
             </div>
             <div class="feeDetail_list">
-                <p class="ffzh fd_list_phone"><label>车主电话</label><span><%=(list[i].carOwnerTelephone||'')%></span></p>
-                <p class="ffzh fd_list_fee"><label>已支付信息费</label><span class="b yellow"><%=(list[i].payAgencyMoney?parseInt(list[i].payAgencyMoney/100,10):0)%>元</span></p>
-                <p class="ffzh fd_list_paytime"><label>支付时间</label><span><%=(list[i].payEndTime?app.util.dateFormat(list[i].payEndTime,'yyyy-MM-dd hh:mm'):'')%></span></p>
-                <p class="ffzh fd_list_agreetime"><label>同意装货时间</label><span><%=(list[i].goodsOwnerAgreeTime?app.util.dateFormat(list[i].goodsOwnerAgreeTime,'yyyy-MM-dd hh:mm'):'')%></span></p>
-                <p class="ffzh fd_list_payway"><label>支付方式</label><span><%=payWay%></span></p>
-                <p class="ffzh fd_list_reseaon"><label>原因</label><span><%=reseaon%></span></p>
+                <p class="ffzh fd_list_phone"><label>车主电话</label><span>[@=(list[i].carOwnerTelephone||'')@]</span></p>
+                <p class="ffzh fd_list_fee"><label>已支付信息费</label><span class="b yellow">[@=(list[i].payAgencyMoney?parseInt(list[i].payAgencyMoney/100,10):0)@]元</span></p>
+                <p class="ffzh fd_list_paytime"><label>支付时间</label><span>[@=(list[i].payEndTime?app.util.dateFormat(list[i].payEndTime,'yyyy-MM-dd hh:mm'):'')@]</span></p>
+                <p class="ffzh fd_list_agreetime"><label>同意装货时间</label><span>[@=(list[i].goodsOwnerAgreeTime?app.util.dateFormat(list[i].goodsOwnerAgreeTime,'yyyy-MM-dd hh:mm'):'')@]</span></p>
+                <p class="ffzh fd_list_payway"><label>支付方式</label><span>[@=payWay@]</span></p>
+                <p class="ffzh fd_list_reseaon"><label>原因</label><span>[@=reseaon@]</span></p>
             </div>
             <a class="btn_1 btn_green btn_1_nth1" href="javascript:;">装货完成</a>
             <a class="btn_1 btn_green btn_1_nth2" href="javascript:;">支付信息费</a>
         </div>
-    <%}%>
+    [@}@]
 </script>
 
-<script src="js/jquery1.12.4.min.js"></script>
+<script src="js/jquery-1.7.2.min.js"></script>
 <script src="js/baiduTemplate.js"></script>
 <script src="js/app.js"></script>
 <script src="js/detail.js"></script>

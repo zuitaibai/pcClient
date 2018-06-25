@@ -405,3 +405,8 @@ $(document)
     .on('click','#btn_closeDetail',app.ui.detailClose)
     .on("ajaxStart",function(){$("#loading").show();})
     .on("ajaxStop",function(){$("#loading").hide();});
+
+if(typeof baidu!=='undefined'){
+    baidu.template.LEFT_DELIMITER='[@';
+    baidu.template.RIGHT_DELIMITER='@]';
+}
