@@ -123,11 +123,13 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                 url: url,
                 data: dataObj || '',
                 dataType: 'html',
+                cache: false,
                 global: false,
                 success: function(data, textStatus, jqXHR){
                     $dialog_m.html(data);
                     paramsObj.overlay && $('#overlay').show();
                     paramsObj.cbk && paramsObj.cbk();
+                    setTimeout(function(){(typeof DD_belatedPNG!=='undefined') && DD_belatedPNG.fix('.ie6png,.ie6png_bg');},100);
                 }
             });
             var method = paramsObj.noClose ? 'addClass' : 'removeClass';
@@ -148,12 +150,14 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                 url: url,
                 data: dataObj || '',
                 dataType: 'html',
+                cache: false,
                 global: false,
                 success: function(data, textStatus, jqXHR){
                     $detail.html(data).show();
                     setTimeout(app.ui.detailHeightZomm,100);
                     paramsObj.overlay && $('#overlay2').show();
                     paramsObj.cbk && paramsObj.cbk();
+                    setTimeout(function(){(typeof DD_belatedPNG!=='undefined') && DD_belatedPNG.fix('.ie6png,.ie6png_bg');},100);
                 }
             });
         },
@@ -410,3 +414,5 @@ if(typeof baidu!=='undefined'){
     baidu.template.LEFT_DELIMITER='[@';
     baidu.template.RIGHT_DELIMITER='@]';
 }
+
+(typeof DD_belatedPNG!=='undefined') && DD_belatedPNG.fix('.ie6png,.ie6png_bg');

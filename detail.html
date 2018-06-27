@@ -10,16 +10,16 @@
 
 <div class="wraper wraper_d">
 
-    <div class="clr header_d"><p class="fl b">货物详情</p><a href="javascript:;" class="fr" id="btn_closeDetail"></a></div>
+    <div class="clr header_d"><p class="fl b">货物详情</p><a href="javascript:;" class="fr ie6png_bg" id="btn_closeDetail"></a></div>
     <div class="main_d pop_event" id="detailMain">
         <div class="clr top" id="userTopTitle">
-            <div class="fl photo" id="userPic_warp"><!--<img src="" alt="">--></div>
+            <div class="fl photo ie6png_bg" id="userPic_warp"><!--<img src="" alt="">--></div>
             <div class="fl userinfo">
                 <p>用 户 名：<span class="b span1" data-aj="detailBean.nickName"></span></p>
-                <p>信&emsp;誉：<span class="span2" data-aj="detailBean.userPart"></span></p>
+                <p>信&emsp;誉：<span class="span2 ie6png_bg" data-aj="detailBean.userPart"></span></p>
                 <p>首次发布：<span class="red b span3" data-aj="detailBean.firstPublishTime|date:hh: mm: ss"></span></p>
             </div>
-            <div class="fl identificate-ico" data-aj-class="detailBean.verifyFlag|0:identificate-ico-no,1:identificate-ico-yet"></div><!--identificate-ico-mid identificate-ico-no--><!--0未验证 1验证-->
+            <div class="fl identificate-ico" data-aj-class="detailBean.verifyFlag|0:identificate-ico-no ie6png_bg,1:identificate-ico-yet ie6png_bg"></div><!--identificate-ico-mid identificate-ico-no--><!--0未验证 1验证-->
             <!--<div class="fr sm-ico">
                 <span class="fl favorites" id="favorites_dt"><a class="fl" href="javascript:;">收藏</a></span>
                 <span class="fl report" id="report_dt"><a class="fl" href="javascript:;">举报</a></span>
@@ -28,15 +28,15 @@
 
          <div class="b neck" id="startToEnd">
             <div class="start">
-                <strong data-aj="detailBean.startPoint"></strong>
+                <strong data-aj="detailBean.startPoint" class="ie6png_bg"></strong>
                 <p data-aj="detailBean.startDetailAdd"></p>
             </div>
             <div class="end">
-                <strong data-aj="detailBean.destPoint"></strong>
+                <strong data-aj="detailBean.destPoint" class="ie6png_bg"></strong>
                 <p data-aj="detailBean.destDetailAdd"></p>
             </div>
             <div class="goods">
-                <strong data-aj="detailBean.taskContent"></strong>
+                <strong data-aj="detailBean.taskContent" class="ie6png_bg"></strong>
             </div>
         </div>
         <ul class="ful sinfo" id="goodsInfo">
@@ -104,6 +104,7 @@
 </script>
 
 <script src="js/jquery-1.7.2.min.js"></script>
+<!--[if IE 6]><script src="js/DD_belatedPNG.min.js"></script><![endif]-->
 <script src="js/baiduTemplate.js"></script>
 <script src="js/app.js"></script>
 <script src="js/detail.js"></script>
