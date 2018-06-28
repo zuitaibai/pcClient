@@ -340,6 +340,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             catchReport: '/plat/plat/infoFee/ex/save.action', //异常上报
             shipmentFinish: '/plat/plat/infoFee/wayBill/finish.action', //装货完成
             detailGoods: '/plat/plat/infoFee/transport/getSingleDetail.action', //我的货源详情
+            shipmentForDo: 'http://59.110.104.99/plat/plat/infoFee/orders/saveOrderStatus.action', //同意装货、拒绝装货、拒绝所有车主装货
 
             statusGoods: '/tytpc/infoPayment/commonPay/getGoodStatus', //[支付]查询货物状态
             getTels: '/tytpc/infoPayment/pcPay/getPayPhoneList', //获取信息费支付电话列表

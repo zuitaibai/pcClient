@@ -19,6 +19,24 @@ $('.wraper_d').on('click.detail', '#showTel', function() {
         noClose:true,
         cbk: function(){  $('#catchPortForm_warp').trigger('loads',{exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
     });
+}).on('click.pop','.ATreject,.ATagree',function(){//拒绝装货、同意装货
+    var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+    var carOwnerUserId = $(this).attr('data-carOwnerUserId') || '';
+    var postData = {tsOrderNo: tsOrderNo, carOwnerUserId: carOwnerUserId};
+    postData.operateType = $(this).hasClass('ATreject')?1:2;//operateType	1 拒绝装货 2 同意装货
+    app.ajax.post(app.conf.api.shipmentForDo,{
+        data: postData,
+        success:function(data){
+            if(data.code==200){
+                app.ui.toastOpen('操作成功！');
+                $(this).closest('.feeDetail').find('.ATreject,.ATagree').remove();
+            }
+        }
+    });
+
+}).on('click.pop','.ATreject,.ATagree,.ATrejectall',function(){//拒绝所有车主装货
+    var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+
 });
 
 /*var felist = [
@@ -222,7 +240,7 @@ function init(goodsId,detailType) {
         data: postData,
         success:function(data){
             if(data.code==200){
-                initRequestOk(data);
+                initRequestOk(data,2);
             }
         }
     });
@@ -348,38 +366,75 @@ function init(goodsId,detailType) {
         }
     }
 };*/
-function initRequestOk(data){
-    var dData = data.data, detialD = dData.detailBean;
+function initRequestOk(data,detailType){
+    var dData = data.data, detailD = dData.detailBean;
     app.ui.norFilter(dData,'#detailMain');
     app.ui.classFilter(dData,'#detailMain');
     /*//收藏
-    if(detialD.isCollect==1) $('#favorites_dt').show().attr('collectId',detialD.collectId);
+    if(detailD.isCollect==1) $('#favorites_dt').show().attr('collectId',detailD.collectId);
     //举报
     if('') $('#report_dt').show();
     //用户头像
     if('') $('#userPic_warp').html('<img src="" alt="">');*/
     //长宽高
     var sizeStr = '';
-    if(detialD.length) sizeStr += '长: '+detialD.length+'米；';
-    if(detialD.wide) sizeStr += '宽: '+detialD.wide+'米；';
-    if(detialD.high) sizeStr += '高: '+detialD.high+'米';
+    if(detailD.length) sizeStr += '长: '+detailD.length+'米；';
+    if(detailD.wide) sizeStr += '宽: '+detailD.wide+'米；';
+    if(detailD.high) sizeStr += '高: '+detailD.high+'米';
     $('#goodsSize_label').html(sizeStr);
+
     /*detailType:入口处：1找货列表/收藏列表的详情 2我的货源列表的详情 3已接单列表的详情 4精准货源5猜你喜欢*/
-    if(detailType==3){
-        if(detialD.isInfoFee==1){//需要信息费
+    //车方
+    if(detailType==3){//已接单列表的详情
+        if(detailD.status==4){//status: 1,//状态 1有效（发布中），0无效，2待定（QQ专用），3阻止（QQ专用），4成交，5取消状态
+
+        }
+        if(detailD.isInfoFee==1){//需要信息费
             //信息费列表数据填充
             if(dData.agencyMoneyList && dData.agencyMoneyList.length){
-                var fill = fillCarsideFeeListHtml(dData.agencyMoneyList);
+                var fill = fillCarsideFeeListHtml(dData.agencyMoneyList,detailD);
                 if(fill) $('#reportInfo,#customerTel').show();
             }
         }
-        else{//不需要信息费
-            if(detialD.status==0);//无效
-            else if(detialD.status==1);//有效（发布中）
-            else if(detialD.status==4);//成交
-            else if(detialD.status==5);//取消状态
+        /*else{//不需要信息费
+            if(detailD.status==0);//无效
+            else if(detailD.status==1);//有效（发布中）
+            else if(detailD.status==4);//成交
+            else if(detailD.status==5);//取消状态
+        }*/
+    }
+    //货方
+    else if(detailType==2){//我的货源列表的详情
+        $('#startToEnd p').show();
+        $('#goodsInfo>li.last').hide();
+        //detailD.infoStatus 信息费运单状态：0待接单  1有人支付成功 （货主的待同意   ）2装货中（车主是待装货 ）3车主装货完成  4系统装货完成 5异常上报
+        //status: 1,//状态 1有效（发布中），0无效，2待定（QQ专用），3阻止（QQ专用），4成交，5取消状态
+        //已撤消或已过期
+        if(detailD.status==5 || (detailD.status==1 && (new Date(detailD.publishTime).getDate()<new Date().getDate()))){
+            $('#footbtns').show().find('a.btn_doEdit,a.btn_doPublish').css('display','inline-block');
+        }
+        //发布中
+        else if(detailD.status==1){
+            if(detailD.isInfoFee==1){//需要信息费
+                //信息费列表数据填充
+                if(dData.agencyMoneyList && dData.agencyMoneyList.length){
+                    fillGoodssideFeeListHtml(dData.agencyMoneyList,detailD);
+                }else{
+                    $('#footbtns').show().find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
+                }
+            }else{
+                $('#footbtns').show().find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
+            }
+        }else{//成交、其他
+
         }
     }
+    //找货列表
+    else if(detailType==1){//找货列表/收藏列表的详情
+
+    }/*else if(detailType==4||detailType==5){//4精准货源5猜你喜欢
+
+    }*/
     //已发布
     //已撤销
     //已过期
@@ -393,8 +448,8 @@ function initRequestOk(data){
     setTimeout(app.ui.detailHeightZomm,100);
 }
 
-function fillCarsideFeeListHtml(list){
-    var re = [];
+function fillCarsideFeeListHtml(list,detailD){
+    var re = [], ifCatch;
     for(var i=0,l=list.length;i<l;i++) {
         var payWay = '';
         if (list[i].payChannel == 1) payWay = '支付宝';
@@ -410,9 +465,9 @@ function fillCarsideFeeListHtml(list){
             htm_payWay = '<p class="ffzh fd_list_payway"><label>支付方式</label><span>'+payWay+'</span></p>',
             htm_resoean = '<p class="ffzh fd_list_payway"><label>原因</label><span>'+reseaon+'</span></p>',
             htm_shipmentedTime = '<p class="ffzh fd_list_payway"><label>完成装货时间</label><span>'+(list[i].carOwnerLoadfinishedTime?app.util.dateFormat(list[i].carOwnerLoadfinishedTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>';
-        var item='', ifCatch;
+        var item='';
         if(list[i].robStatus==0){//待接单
-            item =  '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detialD.tsOrderNo+'">支付信息费</a></div>'
+            item =  '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">支付信息费</a></div>'
         }else if(list[i].robStatus==1){//接单成功
             item = '';
         }else{
@@ -423,7 +478,7 @@ function fillCarsideFeeListHtml(list){
                 btns = '';
             }else if(list[i].robStatus==4){//同意装货
                 htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime];
-                btns = '<a class="btn_1 btn_green btn_1_nth1 ATshipmented" href="javascript:;" data-tsOrderNo="'+detialD.tsOrderNo+'">装货完成</a> <a data-tsOrderNo="'+detialD.tsOrderNo+'" class="btn_1 btn_green btn_1_nth2 ATport" href="javascript:;">异常上报</a>';
+                btns = '<a class="btn_1 btn_green btn_1_nth1 ATshipmented" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">装货完成</a> <a data-tsOrderNo="'+detailD.tsOrderNo+'" class="btn_1 btn_green btn_1_nth2 ATport" href="javascript:;">异常上报</a>';
             }else if(list[i].robStatus==5 || list[i].robStatus==6){//装货完成、系统装货完成
                 htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
                 btns = '';
@@ -435,13 +490,76 @@ function fillCarsideFeeListHtml(list){
             //list[i].robStatus==11 接单失败
             //list[i].robStatus==10 车主取消装货
             item = '<div class="feeDetail">\
-                                <div class="clr fftit">\
-                                    <strong class="fl">信息费详情</strong>\
-                                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
-                                </div>\
-                                <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
-                                '+btns+'\
-                            </div>';
+                <div class="clr fftit">\
+                    <strong class="fl">信息费详情</strong>\
+                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
+                </div>\
+                <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
+                '+btns+'\
+            </div>';
+        }
+        re.push(item);
+    }
+    re.length && $('#goodsDetail_list').html(re.join('\n')).show();
+    return ifCatch;
+}
+function fillGoodssideFeeListHtml(list,detailD){
+    var re = [], rejectAll = [];
+    for(var i=0,l=list.length;i<l;i++) {
+        var payWay = '';
+        if (list[i].payChannel == 1) payWay = '支付宝';
+        else if (list[i].payChannel == 2) payWay = '易宝/银行卡';
+        else if (list[i].payChannel == 3) payWay = '微信';
+        var reseaon = '';
+        if (list[i].robStatus in app.conf.dataReceiptMap) reseaon = app.conf.dataReceiptMap[list[i].robStatus];
+        //robStatus:接单状态   0待接单 1接单成功  2货主拒绝 3系统拒绝  4同意装货 5车主装货完成  6系统装货完成 7异常上报 8货主撤销货源退款 9系统撤销货源退款 10车主取销装货 11接单失败（用户同意别人装货，对没有支付成功的支付信息的操作状态）
+        var htm_carPhone = '<p class="ffzh fd_list_phone"><label>车主电话</label><span>'+(list[i].carOwnerTelephone||'')+'</span></p>',
+            htm_payMoney = '<p class="ffzh fd_list_fee"><label>已支付信息费</label><span class="b yellow">'+(list[i].payAgencyMoney?parseInt(list[i].payAgencyMoney/100,10):0)+'元</span></p>',
+            htm_payTime = '<p class="ffzh fd_list_paytime"><label>支付时间</label><span>'+(list[i].payEndTime?app.util.dateFormat(list[i].payEndTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>',
+            htm_agreeTime = '<p class="ffzh fd_list_agreetime"><label>同意装货时间</label><span>'+(list[i].goodsOwnerAgreeTime?app.util.dateFormat(list[i].goodsOwnerAgreeTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>',
+            htm_payWay = '<p class="ffzh fd_list_payway"><label>支付方式</label><span>'+payWay+'</span></p>',
+            htm_resoean = '<p class="ffzh fd_list_payway"><label>原因</label><span>'+reseaon+'</span></p>',
+            htm_shipmentedTime = '<p class="ffzh fd_list_payway"><label>完成装货时间</label><span>'+(list[i].carOwnerLoadfinishedTime?app.util.dateFormat(list[i].carOwnerLoadfinishedTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>';
+        var item='';
+        if(list[i].robStatus==0){//待接单
+        }else if(list[i].robStatus==1){//接单成功
+            item = '<div class="feeDetail">\
+                <div class="clr fftit">\
+                    <strong class="fl">信息费详情</strong>\
+                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
+                </div>\
+                <div class="feeDetail_list">'+[htm_carPhone,htm_payMoney,htm_payTime,htm_payWay].join('\n')+'</div>\
+                <a class="btn_1 btn_green btn_1_nth1 ATreject" href="javascript:;" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'">拒绝装货</a>\
+                <a class="btn_1 btn_green btn_1_nth2 ATagree" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'" href="javascript:;">同意装货</a>\
+            </div>';
+            rejectAll.push(list[i].carOwnerUserId);
+        }else{
+            var btns = '', htm_arr = [];
+            if(list[i].robStatus==2 || list[i].robStatus==3 || list[i].robStatus==8 || list[i].robStatus==9){
+                //货主拒绝、系统拒绝、货主撤消/退款、系统撤消/退款
+                htm_arr = [htm_payMoney,htm_resoean];
+                btns = '';
+            }else if(list[i].robStatus==4){//同意装货
+                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime];
+                btns = '<a class="btn_1 btn_green btn_1_nth1 ATshipmented" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">装货完成</a> <a data-tsOrderNo="'+detailD.tsOrderNo+'" class="btn_1 btn_green btn_1_nth2 ATport" href="javascript:;">异常上报</a>';
+            }else if(list[i].robStatus==5 || list[i].robStatus==6){//装货完成、系统装货完成
+                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
+                btns = '';
+            }else if(list[i].robStatus==7){//异常上报
+                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
+                btns = '';
+                ifCatch = true;
+            }
+            //list[i].robStatus==11 接单失败
+            //list[i].robStatus==10 车主取消装货
+            item = '<div class="feeDetail">\
+                <div class="clr fftit">\
+                    <strong class="fl">信息费详情</strong>\
+                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
+                </div>\
+                <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
+                '+btns+'\
+            </div>';
         }
         re.push(item);
     }
