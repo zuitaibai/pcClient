@@ -76,7 +76,7 @@ function init(goodsId,detailType) {
         data: postData,
         success:function(data){
             if(data.code==200){
-                initRequestOk(data,2);
+                initRequestOk(data,detailType);
             }
         }
     });
