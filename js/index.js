@@ -134,8 +134,8 @@ function request(){
                 }
                 var showMore = $('#listLoadMore').show();
                 //todo:
-                //if(len<app.util.getQueryString('条数')) showMore.children('span').show().siblings().hide();
-                if(len<15) showMore.children('span').show().siblings().hide();
+                if(len<app.conf.listRequestCounts) showMore.children('span').show().siblings().hide();
+                // if(len<15) showMore.children('span').show().siblings().hide();
                 else showMore.children('a').show().siblings().hide();
             }
             //无数据

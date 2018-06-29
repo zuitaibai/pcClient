@@ -387,7 +387,8 @@ window.console = window['console']||{log:function(){},warn:function(){}};
             '9': '系统撤销货源退款',
             '10': '车主取销装货',
             '11': '接单失败' //（用户同意别人装货，对没有支付成功的支付信息的操作状态）
-        }
+        },
+        listRequestCounts: 30
     };
     app.work = {
         getCommonParamsObj: function(){
