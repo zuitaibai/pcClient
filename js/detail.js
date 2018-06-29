@@ -15,9 +15,12 @@ $('.wraper_d').on('click.detail', '#showTel', function() {
     });
 }).on('click.pop','.ATport',function(){//异常上报
     var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
+    var ifCatchByGoods = $(this).attr('data-ifCatchByGoods') || '';
+    var postO = {exParty: 1, tsOrderNo:tsOrderNo};//exParty: 1车主上报，2货主上报
+    if(ifCatchByGoods=='yes') postO.exParty = 2;
     app.ui.popOpen('./pop_catchPortForm.html',{
         noClose:true,
-        cbk: function(){  $('#catchPortForm_warp').trigger('loads',{exParty: 1, tsOrderNo:tsOrderNo}); } //exParty: 1车主上报，2货主上报
+        cbk: function(){  $('#catchPortForm_warp').trigger('loads',postO); }
     });
 }).on('click.pop','.ATreject,.ATagree',function(){//拒绝装货、同意装货
     var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
@@ -34,192 +37,25 @@ $('.wraper_d').on('click.detail', '#showTel', function() {
         }
     });
 
-}).on('click.pop','.ATreject,.ATagree,.ATrejectall',function(){//拒绝所有车主装货
+}).on('click.pop','.ATrejectall',function(){//拒绝所有车主装货
+    var carOwnerUserIds = $(this).attr('data-carOwnerUserId') || '';
     var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
-
+    if(!carOwnerUserIds || !tsOrderNo){
+        app.ui.toastOpen('参数不正确！');
+        return;
+    }
+    var postData = {tsOrderNo: tsOrderNo, carOwnerUserId: carOwnerUserIds};
+    postData.operateType = 1;
+    app.ajax.post(app.conf.api.shipmentForDo,{
+        data: postData,
+        success:function(data){
+            if(data.code==200){
+                app.ui.toastOpen('操作成功！');
+                $('#refuseAll').hide();
+            }
+        }
+    });
 });
-
-/*var felist = [
-    '<p class="ind0 ffzh"><label>车主电话</label><span>13342202787</span></p>',
-    '<p class="ind1 ffzh"><label>已支付信息费</label><span class="b yellow">0元</span></p>',
-    '<p class="ind2 ffzh"><label>支付时间</label><span>2018-05-30  10:24</span></p>',
-    '<p class="ind3 ffzh"><label>同意装货时间</label><span>2018-05-30  10:24</span></p>',
-    '<p class="ind4 ffzh"><label>支付方式</label><span>微信支付</span></p>',
-    '<p class="ind5 ffzh"><label>原因</label><span>发货方拒绝装货</span></p>'
-];
-
-var btns = [
-    '<a class="ind0 btn_1  btn_green" href="javascript:;">支付信息费</a>',
-    '<a class="ind1 btn_1  btn_blue" href="javascript:;">直接发布</a>',
-    '<a class="ind2 btn_1  btn_blue" href="javascript:;">设置成交</a>',
-    '<a class="ind3 btn_1  btn_blue" href="javascript:;">异常上报</a>',
-    '<a class="ind4 btn_1  btn_blue" href="javascript:;">同意成交</a>',
-    '<a class="ind5 btn_1border" href="javascript:;">拒绝成交</a>',
-    '<a class="ind6 btn_1border" href="javascript:;">搜狗地图</a>',
-    '<a class="ind7 btn_1border" href="javascript:;">百度地图</a>',
-    '<a class="ind8 btn_1border" href="javascript:;">编辑再发布</a>',
-    '<a class="ind9 btn_1border" href="javascript:;">撤销货源</a>'
-];
-
-var pcTool = {
-    userTopTitle: function(data, userStr) {
-        var favorites = '<span class="fl favorites"><a class="fl" href="javascript:;">收藏</a></span>'
-        var report = '<span class="fl report"><a class="fl" href="javascript:;">举报</a></span>'
-        if (!userStr) {
-            Totle = favorites + report;
-        } else if (userStr == 'favorites') {
-            Totle = favorites;
-        } else if (userStr == 'report') {
-            Totle = report;
-        } else if (userStr == 'off') {
-            Totle = '';
-        }
-        var user = '<div class="clr top" id="userTopTitle">\
-            <div class="fl photo"><!--<img src="" alt="">--></div>\
-            <div class="fl userinfo">\
-                <p>用 户 名：<span class="b span1">金桥货运</span></p>\
-                <p>信&emsp;誉：<span class="span2">100</span></p>\
-                <p>首次发布：<span class="red b span3">09：48：28</span></p>\
-            </div>\
-            <div class="fl identificate-ico identificate-ico-yet"></div><!--identificate-ico-mid identificate-ico-no-->\
-            <div class="fr sm-ico">' + Totle + '</div>\
-        </div>';
-        return user;
-    },
-    startToEnd: function(data, placeStr) {
-        if (!placeStr) {
-            var placeStart = '',
-                placeEnd = '';
-        } else if (placeStr == 'on') {
-            var placeStart = '<p>河北保定市徐水县连七八糟区58号院</p>';
-            var placeEnd = '<p>山东菏泽曹县连七八糟区58号院</p>';
-        }
-        var place = '<div class="b neck" id="startToEnd">\
-            <div class="start">\
-                <strong>山西太原市杏花岭区</strong>' + placeStart + '\
-            </div>\
-            <div class="end">\
-                <strong>山东菏泽市曹县</strong>' + placeEnd + '\
-            </div>\
-            <div class="goods">\
-                <strong>200挖机</strong>\
-            </div>\
-        </div>';
-        return place;
-    },
-    goodsInfo: function(data, infoStr) {
-        if (!infoStr) {
-            var infoPhone = '';
-        } else if (infoStr == 'on') {
-            var infoPhone = '<li class="blue last"><em id="telArea"><label>电话：</label><span>13568890668</span></em><a id="showTel" href="javascript:;">查看电话 >></a></li>'
-        }
-        var information = '<ul class="ful sinfo" id="goodsInfo">\
-            <li><label>重量：</label><span>50吨</span></li>\
-            <li><label>尺寸：</label><span></span></li>\
-            <li><label>运价：</label><span></span></li>\
-            <li><label>备注：</label><span></span></li>' + infoPhone + '\
-        </ul>';
-        return information;
-    },
-    goodsDetail: function(data, infoList, detailBtnStr, waybill) {
-        if (!detailBtnStr) {
-            var btn_green = '';
-        } else if (detailBtnStr == 'on') {
-            var btn_green = '<a class="btn_1 btn_green" href="javascript:;" id="s">装货完成</a>'
-        }
-        if (!waybill) {
-            var bill = '<span class="fr">运单号：<span>201825302344395924</span></span>'
-        } else if (waybill == 'off') {
-            var bill = ''
-        }
-        var infoDetail = '<div class="feeDetail" id="goodsDetail">\
-            <div class="clr fftit">\
-                <strong class="fl">信息费详情</strong>' + bill + '\
-            </div>\
-            <div id="theDetail">' + infoList + '</div>' + btn_green + '\
-        </div>';
-        return infoDetail;
-    },
-    reportInfo: function(data, reportStr) {
-        var infoReport = '<div class="catch_report" id="reportInfo">\
-            <div class="clr fftit">\
-                <strong class="fl">异常上报</strong>\
-            </div>\
-            <p class="ffzh"><label>异常上报状态</label><span class="blue">待处理</span></p>\
-            <p class="ffzh"><label>异常上报时间</label><span>2018-05-30  10:24</span></p>\
-        </div>';
-        return infoReport;
-    },
-    customerTel: function(data, custStr) {
-        var customer = '<div class="b ffoot" id="customerTel">\
-            <p class="blue">客服电话&emsp;400-6688-998</p>\
-        </div>';
-        return customer;
-    },
-    footbtns: function(data, btnStr) {
-        var btnBox = '<div class="footbtns" id="footbtns">' + btnStr + '</div>';
-        return btnBox;
-    },
-    refuseAll: function(data, allStr) {
-        var refuse = '<div class="footbtns2" id="refuseAll">\
-            <a class="btn_1 btn_blue_big" href="javascript:;">拒绝所有车主</a>\
-        </div>';
-        return refuse;
-    }
-};*/
-
-/*
-load DOM Name:
-
-*/
-// var loadStateStr = {
-//     zfxxf:
-// }
-function loadState(str) {
-    var strTo = '';
-    switch (str) {
-        case 'XinXiFeiZhiFu':
-            strTo = pcTool.userTopTitle() + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.footbtns('', btns[0] + btns[6] + btns[7]);
-            break;
-        case 'DaiTongYi1':
-            strTo = pcTool.userTopTitle('', 'favorites') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on');
-            break;
-        case 'DaiTongYi2':
-            strTo = pcTool.startToEnd('', 'on') + pcTool.goodsInfo() + pcTool.goodsDetail('', felist[0] + felist[1] + felist[0] + felist[4], '') + pcTool.footbtns('', btns[4] + btns[5]) + pcTool.refuseAll();
-            break;
-        case 'ZhuangHuoZhong':
-            strTo = pcTool.startToEnd() + pcTool.goodsInfo() + pcTool.goodsDetail('', felist[0] + felist[1] + felist[0] + felist[4], '') + pcTool.footbtns('', btns[3]);
-            break;
-        case 'ZhuangHuoWanCheng':
-            strTo = pcTool.startToEnd() + pcTool.goodsInfo() + pcTool.goodsDetail('', felist[0] + felist[1] + felist[0] + felist[4], '');
-            break;
-        case 'FaBuZhong':
-            strTo = pcTool.startToEnd('', 'on') + pcTool.goodsInfo() + pcTool.footbtns('', btns[2] + btns[9]);
-            break;
-        case 'YiCheXiaoGuoQi':
-            strTo = pcTool.startToEnd('', 'on') + pcTool.goodsInfo() + pcTool.footbtns('', btns[1] + btns[8]);
-            break;
-        case 'DaiZhiFu':
-            strTo = pcTool.userTopTitle('', 'favorites') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.footbtns('', btns[0]);
-            break;
-        case 'DaiZhuangHuo':
-            strTo = pcTool.userTopTitle('', 'off') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.goodsDetail('', felist[1] + felist[2] + felist[3], 'on');
-            break;
-        case 'YiChengJiao':
-            strTo = pcTool.userTopTitle('', 'off') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.goodsDetail('', felist[1] + felist[2] + felist[3]);
-            break;
-        case 'JuJueTuiFei':
-            strTo = pcTool.userTopTitle('', 'report') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.goodsDetail('', felist[1] + felist[5], '', 'off') + pcTool.customerTel();
-            break;
-        case 'WeiYueYiChang':
-            strTo = pcTool.userTopTitle('', 'report') + pcTool.startToEnd() + pcTool.goodsInfo('', 'on') + pcTool.goodsDetail('', felist[1] + felist[5]) + pcTool.reportInfo() + pcTool.customerTel();
-            break;
-        case 'WeiYue':
-            strTo = pcTool.startToEnd('', 'on') + pcTool.goodsInfo('', 'on') + pcTool.goodsDetail('', felist[1] + felist[5]) + pcTool.reportInfo() + pcTool.customerTel();
-            break;
-    }
-    $('#detailMain').append(strTo)
-}
 
 $('#detailMain').on('loads', function(event, params) {
     params = params || {};
@@ -370,12 +206,11 @@ function initRequestOk(data,detailType){
     var dData = data.data, detailD = dData.detailBean;
     app.ui.norFilter(dData,'#detailMain');
     app.ui.classFilter(dData,'#detailMain');
-    /*//收藏
+    /* 收藏 举报 用户头像
     if(detailD.isCollect==1) $('#favorites_dt').show().attr('collectId',detailD.collectId);
-    //举报
     if('') $('#report_dt').show();
-    //用户头像
-    if('') $('#userPic_warp').html('<img src="" alt="">');*/
+    if('') $('#userPic_warp').html('<img src="" alt="">');
+    */
     //长宽高
     var sizeStr = '';
     if(detailD.length) sizeStr += '长: '+detailD.length+'米；';
@@ -386,22 +221,11 @@ function initRequestOk(data,detailType){
     /*detailType:入口处：1找货列表/收藏列表的详情 2我的货源列表的详情 3已接单列表的详情 4精准货源5猜你喜欢*/
     //车方
     if(detailType==3){//已接单列表的详情
-        if(detailD.status==4){//status: 1,//状态 1有效（发布中），0无效，2待定（QQ专用），3阻止（QQ专用），4成交，5取消状态
-
+        //信息费列表数据填充
+        if(dData.agencyMoneyList && dData.agencyMoneyList.length){
+            var fill = fillCarsideFeeListHtml(dData.agencyMoneyList,detailD);
+            if(fill) $('#reportInfo,#customerTel').show();
         }
-        if(detailD.isInfoFee==1){//需要信息费
-            //信息费列表数据填充
-            if(dData.agencyMoneyList && dData.agencyMoneyList.length){
-                var fill = fillCarsideFeeListHtml(dData.agencyMoneyList,detailD);
-                if(fill) $('#reportInfo,#customerTel').show();
-            }
-        }
-        /*else{//不需要信息费
-            if(detailD.status==0);//无效
-            else if(detailD.status==1);//有效（发布中）
-            else if(detailD.status==4);//成交
-            else if(detailD.status==5);//取消状态
-        }*/
     }
     //货方
     else if(detailType==2){//我的货源列表的详情
@@ -412,39 +236,28 @@ function initRequestOk(data,detailType){
         //已撤消或已过期
         if(detailD.status==5 || (detailD.status==1 && (new Date(detailD.publishTime).getDate()<new Date().getDate()))){
             $('#footbtns').show().find('a.btn_doEdit,a.btn_doPublish').css('display','inline-block');
-        }
-        //发布中
-        else if(detailD.status==1){
-            if(detailD.isInfoFee==1){//需要信息费
-                //信息费列表数据填充
-                if(dData.agencyMoneyList && dData.agencyMoneyList.length){
-                    fillGoodssideFeeListHtml(dData.agencyMoneyList,detailD);
-                }else{
-                    $('#footbtns').show().find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
+        }else if(detailD.status==1){
+            //信息费列表数据填充
+            if(dData.agencyMoneyList && dData.agencyMoneyList.length){
+                var result = fillGoodssideFeeListHtml(dData.agencyMoneyList,detailD);
+                if(result==='custmCall') $('#customerTel').show();
+                else if((typeof result==='object') && result.length){
+                    var tsOrderNo = result.tsOrderNo;
+                    $('#refuseAll').show().find('a').attr('data-carOwnerUserId',result.join(',')).attr('data-tsOrderNo',tsOrderNo);
                 }
             }else{
                 $('#footbtns').show().find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
             }
-        }else{//成交、其他
-
         }
     }
     //找货列表
-    else if(detailType==1){//找货列表/收藏列表的详情
-
-    }/*else if(detailType==4||detailType==5){//4精准货源5猜你喜欢
-
-    }*/
-    //已发布
-    //已撤销
-    //已过期
-    //待同意
-    //待装货
-    //已完成
-    //拒绝/退费
-    //违约/异常
-    //找货：支付信息费
-    //继续支付
+    else if(detailType==1){//找货列表/收藏列表的详情   else if(detailType==4||detailType==5) //4精准货源5猜你喜欢
+        $('#customerTel').show();
+        if(detailD.isInfoFee==1) {
+            var html = '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">支付信息费</a></div>'
+            $('#goodsDetail_list').html(html).show();
+        }
+    }
     setTimeout(app.ui.detailHeightZomm,100);
 }
 
@@ -467,7 +280,7 @@ function fillCarsideFeeListHtml(list,detailD){
             htm_shipmentedTime = '<p class="ffzh fd_list_payway"><label>完成装货时间</label><span>'+(list[i].carOwnerLoadfinishedTime?app.util.dateFormat(list[i].carOwnerLoadfinishedTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>';
         var item='';
         if(list[i].robStatus==0){//待接单
-            item =  '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">支付信息费</a></div>'
+            item =  '<div class="feeDetail" style="height:62px;"><a class="btn_1 btn_green btn_1_nth1 ATpay" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">支付信息费</a></div>';
         }else if(list[i].robStatus==1){//接单成功
             item = '';
         }else{
@@ -504,7 +317,7 @@ function fillCarsideFeeListHtml(list,detailD){
     return ifCatch;
 }
 function fillGoodssideFeeListHtml(list,detailD){
-    var re = [], rejectAll = [];
+    var arr = [], rejectAll;
     for(var i=0,l=list.length;i<l;i++) {
         var payWay = '';
         if (list[i].payChannel == 1) payWay = '支付宝';
@@ -512,7 +325,6 @@ function fillGoodssideFeeListHtml(list,detailD){
         else if (list[i].payChannel == 3) payWay = '微信';
         var reseaon = '';
         if (list[i].robStatus in app.conf.dataReceiptMap) reseaon = app.conf.dataReceiptMap[list[i].robStatus];
-        //robStatus:接单状态   0待接单 1接单成功  2货主拒绝 3系统拒绝  4同意装货 5车主装货完成  6系统装货完成 7异常上报 8货主撤销货源退款 9系统撤销货源退款 10车主取销装货 11接单失败（用户同意别人装货，对没有支付成功的支付信息的操作状态）
         var htm_carPhone = '<p class="ffzh fd_list_phone"><label>车主电话</label><span>'+(list[i].carOwnerTelephone||'')+'</span></p>',
             htm_payMoney = '<p class="ffzh fd_list_fee"><label>已支付信息费</label><span class="b yellow">'+(list[i].payAgencyMoney?parseInt(list[i].payAgencyMoney/100,10):0)+'元</span></p>',
             htm_payTime = '<p class="ffzh fd_list_paytime"><label>支付时间</label><span>'+(list[i].payEndTime?app.util.dateFormat(list[i].payEndTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>',
@@ -520,49 +332,40 @@ function fillGoodssideFeeListHtml(list,detailD){
             htm_payWay = '<p class="ffzh fd_list_payway"><label>支付方式</label><span>'+payWay+'</span></p>',
             htm_resoean = '<p class="ffzh fd_list_payway"><label>原因</label><span>'+reseaon+'</span></p>',
             htm_shipmentedTime = '<p class="ffzh fd_list_payway"><label>完成装货时间</label><span>'+(list[i].carOwnerLoadfinishedTime?app.util.dateFormat(list[i].carOwnerLoadfinishedTime,'yyyy-MM-dd hh:mm'):'')+'</span></p>';
-        var item='';
-        if(list[i].robStatus==0){//待接单
-        }else if(list[i].robStatus==1){//接单成功
-            item = '<div class="feeDetail">\
-                <div class="clr fftit">\
-                    <strong class="fl">信息费详情</strong>\
-                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
-                </div>\
-                <div class="feeDetail_list">'+[htm_carPhone,htm_payMoney,htm_payTime,htm_payWay].join('\n')+'</div>\
-                <a class="btn_1 btn_green btn_1_nth1 ATreject" href="javascript:;" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'">拒绝装货</a>\
-                <a class="btn_1 btn_green btn_1_nth2 ATagree" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'" href="javascript:;">同意装货</a>\
-            </div>';
-            rejectAll.push(list[i].carOwnerUserId);
-        }else{
-            var btns = '', htm_arr = [];
-            if(list[i].robStatus==2 || list[i].robStatus==3 || list[i].robStatus==8 || list[i].robStatus==9){
-                //货主拒绝、系统拒绝、货主撤消/退款、系统撤消/退款
-                htm_arr = [htm_payMoney,htm_resoean];
-                btns = '';
-            }else if(list[i].robStatus==4){//同意装货
-                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime];
-                btns = '<a class="btn_1 btn_green btn_1_nth1 ATshipmented" href="javascript:;" data-tsOrderNo="'+detailD.tsOrderNo+'">装货完成</a> <a data-tsOrderNo="'+detailD.tsOrderNo+'" class="btn_1 btn_green btn_1_nth2 ATport" href="javascript:;">异常上报</a>';
-            }else if(list[i].robStatus==5 || list[i].robStatus==6){//装货完成、系统装货完成
-                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
-                btns = '';
-            }else if(list[i].robStatus==7){//异常上报
-                htm_arr = [htm_payMoney,htm_payTime,htm_agreeTime,htm_shipmentedTime];
-                btns = '';
-                ifCatch = true;
-            }
-            //list[i].robStatus==11 接单失败
-            //list[i].robStatus==10 车主取消装货
-            item = '<div class="feeDetail">\
-                <div class="clr fftit">\
-                    <strong class="fl">信息费详情</strong>\
-                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
-                </div>\
-                <div class="feeDetail_list">'+htm_arr.join('\n')+'</div>\
-                '+btns+'\
-            </div>';
+
+        var itemHtml = [], itemBtns = [];
+        if(detailD.infoStatus==0){ //信息费运单状态：0待接单
+
+        }else if(detailD.infoStatus==1){ //信息费运单状态：1有人支付成功 （货主的待同意）
+            itemHtml = [htm_carPhone, htm_payMoney, htm_payTime, htm_payWay];
+            itemBtns = [
+                '<a class="btn_1 btn_green btn_1_nth1 ATreject" href="javascript:;" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'">拒绝装货</a>',
+                '<a class="btn_1 btn_green btn_1_nth2 ATagree" data-carOwnerUserId="'+list[i].carOwnerUserId+'" data-tsOrderNo="'+detailD.tsOrderNo+'" href="javascript:;">同意装货</a>'
+            ];
+            if(typeof rejectAll!=='object') rejectAll = [];
+            rejectAll.push([list[i].carOwnerUserId]);
+            rejectAll.tsOrderNo = detailD.tsOrderNo;
+        }else if(detailD.infoStatus==2){ //信息费运单状态：2装货中（车主是待装货 ）
+            itemHtml = [htm_carPhone, htm_payMoney, htm_payTime, htm_payWay, htm_agreeTime];
+            itemBtns = [
+                '<a class="btn_1 btn_green btn_1_nth1 ATport" href="javascript:;" data-ifCatchByGoods="yes" data-tsOrderNo="'+detailD.tsOrderNo+'">异常上报</a>'
+            ];
+        }else if(detailD.infoStatus==3 || detailD.infoStatus==4){ //信息费运单状态：3车主装货完成 4系统装货完成
+            itemHtml = [htm_carPhone, htm_payMoney, htm_payTime, htm_payWay, htm_agreeTime, htm_shipmentedTime];
+        }else if(detailD.infoStatus==5){ //信息费运单状态：5异常上报
+            $('#reportInfo').show();
+            rejectAll = 'custmCall';
         }
-        re.push(item);
+        var item = '<div class="feeDetail">\
+                <div class="clr fftit">\
+                    <strong class="fl">信息费详情</strong>\
+                    <span class="fr fftit_r">运单号：<span>'+(list[i].goodsOrderNo||'')+'</span></span>\
+                </div>\
+                <div class="feeDetail_list">'+itemHtml.join('\n')+'</div>\
+                '+itemBtns.join('')+'\
+            </div>';
+        arr.push(item);
     }
-    re.length && $('#goodsDetail_list').html(re.join('\n')).show();
-    return ifCatch;
+    re.length && $('#goodsDetail_list').html(arr.join('\n')).show();
+    return rejectAll;
 }
