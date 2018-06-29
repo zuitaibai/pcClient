@@ -66,6 +66,7 @@ if(loadWeb=='yes'){
     var goodsId = app.util.getQueryString('goodsId');
     var detailType = app.util.getQueryString('detailType');
     if (goodsId&&detailType) init(goodsId,detailType);
+    $('#btn_closeDetail').hide();
 }
 
 function init(goodsId,detailType) {

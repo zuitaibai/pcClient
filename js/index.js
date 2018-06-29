@@ -133,9 +133,7 @@ function request(){
                     $('#list-tbody')[ifMore?'append':'html'](html);
                 }
                 var showMore = $('#listLoadMore').show();
-                //todo:
                 if(len<app.conf.listRequestCounts) showMore.children('span').show().siblings().hide();
-                // if(len<15) showMore.children('span').show().siblings().hide();
                 else showMore.children('a').show().siblings().hide();
             }
             //无数据
