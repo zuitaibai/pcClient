@@ -30,7 +30,9 @@ window.console = window['console']||{log:function(){},warn:function(){}};
         apiUrlBase: function(url){
             var _url, href = location.href;
             if(href.indexOf('www.teyuntong')>-1||href.indexOf('boss.teyuntong')>-1) _url = 'http://www.teyuntong.cn';
-            else if(href.indexOf('release.teyuntong')>-1||href.indexOf('47.93.81.31')>-1) _url = 'http://47.93.81.31';
+            //todo:
+            //else if(href.indexOf('release.teyuntong')>-1||href.indexOf('47.93.81.31')>-1) _url = 'http://47.93.81.31';
+            else if(href.indexOf('release.teyuntong')>-1||href.indexOf('47.93.81.31')>-1) _url = 'http://59.110.104.99'; //for Boss Hou debug
             else if(href.indexOf('59.110.104.99')>-1) _url = 'http://59.110.104.99';
             else _url = location.origin || (location.protocol  ? location.protocol + '//' + location.host : '//' + location.host);
             return _url + (url||'');
@@ -296,7 +298,7 @@ window.console = window['console']||{log:function(){},warn:function(){}};
                     params.success && params.success(data);
                 }
                 else{
-                    app.ui.toastOpen(data.msg || '');
+                    data.code!=1004 && app.ui.toastOpen(data.msg || '');
                 }
             },
             error: function (xhr, textStatus, errorThrown) { params.error && params.error(textStatus) },

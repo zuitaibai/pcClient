@@ -10,7 +10,7 @@ $('.pop_event').on('click.pop','#pop_btn_ok_choosePay',function(){
             if(data.code==200){
                 if(!data.data) return;
                 if(checked==7){//alipay
-                    $('<div/>').css({display:'none'}).html(data.data).appendTo('body');
+                    $('<div/>').attr('id','aaaaa').css({display:'none'}).appendTo('body').html(data.data);
                     $('#getResult_alipay').show();
                 }else if(checked==8){//wechat
                     var userId = app.util.getQueryString('userId');

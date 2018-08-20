@@ -1,6 +1,12 @@
 $('.wraper_d').on('click.detail', '#showTel', function() {
     $('#telArea').show();
     $(this).hide();
+}).on('click.detail','.btn_mapBaidu',function(){//百度地图
+    var s = $(this).attr('data-s');
+    if(s) window.open(s);
+}).on('click.detail','.btn_mapSougou',function(){//搜狗地图
+    var s = $(this).attr('data-s');
+    //if(s) window.open(s);
 }).on('click.pop','.ATpay',function(){//支付信息费按钮
     var tsOrderNo = $(this).attr('data-tsOrderNo') || '';
     app.ui.popOpen('./pop_mediFeePay.html',{
@@ -212,6 +218,13 @@ function initRequestOk(data,detailType){
     if('') $('#report_dt').show();
     if('') $('#userPic_warp').html('<img src="" alt="">');
     */
+    //百度地图
+    var lat_s = detailD.startLatitude, lng_s = detailD.startLongitude, name_s = detailD.startCity||'',
+        lat_e = detailD.destLatitude, lng_e = detailD.destLongitude, name_e = detailD.destCity||'';
+    $('#footbtns a.btn_mapBaidu').attr('data-s',
+        'http://api.map.baidu.com/direction?origin=latlng:'+lat_s+','+lng_s+'|name:'+name_s+'&'+
+        'destination=latlng:'+lat_e+','+lng_e+'|name:'+name_e+'&mode=driving&output=html&src=tyt&region=地点'
+    );
     //长宽高
     var sizeStr = '';
     if(detailD.length) sizeStr += '长: '+detailD.length+'米；';
@@ -236,7 +249,7 @@ function initRequestOk(data,detailType){
         //status: 1,//状态 1有效（发布中），0无效，2待定（QQ专用），3阻止（QQ专用），4成交，5取消状态
         //已撤消或已过期
         if(detailD.status==5 || (detailD.status==1 && (new Date(detailD.publishTime).getDate()<new Date().getDate()))){
-            $('#footbtns').show().find('a.btn_doEdit,a.btn_doPublish').css('display','inline-block');
+            $('#footbtns').find('a.btn_doEdit,a.btn_doPublish').css('display','inline-block');
         }else if(detailD.status==1){
             //信息费列表数据填充
             if(dData.agencyMoneyList && dData.agencyMoneyList.length){
@@ -247,7 +260,7 @@ function initRequestOk(data,detailType){
                     $('#refuseAll').show().find('a').attr('data-carOwnerUserId',result.join(',')).attr('data-tsOrderNo',tsOrderNo);
                 }
             }else{
-                $('#footbtns').show().find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
+                $('#footbtns').find('a.btn_docannel,a.btn_doSetok').css('display','inline-block');
             }
         }
     }

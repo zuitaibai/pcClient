@@ -222,12 +222,14 @@
 	line-height: 58px;
 	vertical-align: middle;
 	padding: 0 20px;
-	display:none;
+	/*display:none;*/
 }
 .footbtns .btn_1, .footbtns .btn_1border {
 	margin-left: 8px;
 }
 .footbtns .btnss{display:none;}
+/*.footbtns .btn_mapSougou{display:inline-block;}*/
+.footbtns .btn_mapBaidu{display:inline-block;}
 .footbtns2 {
 	border-top: 1px solid #E7E7E7;
 	height: 66px;
